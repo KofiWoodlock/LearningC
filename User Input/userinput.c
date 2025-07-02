@@ -13,8 +13,12 @@ Key terms and symbols:
     - function used to print formatted data to the stdout
 - scanf
     - function used to read formatted data from stdin
-- fgets
+- fgets (FileGetString)
     - function used to get a string from a steam
+- sizeof
+    - returns the size in bytes of the specified operand
+- getchar
+    - Takes a single input character from stdio, only can take a single input stream
 */
 
 int main() {
@@ -25,7 +29,7 @@ int main() {
     char name[30] = ""; 
     int age = 0;
     float gpa = 0.0f;
-    char grade = "\0"; // null terminator 
+    char grade = '\0'; // null terminator 
 
     /*
     // Ask user to enter first name and age
@@ -47,8 +51,10 @@ int main() {
 
     // printf("Hello %s", name);
 
-    printf("Enter your name:\n");
-    fgets("%s", 30, &name);
+    printf("Enter your full name\n");
+    fgets(name, sizeof(name), stdin);    
+    // remove the newline character at the end of char stream
+    name[strlen(name)-1] = '\0';
     printf("Enter your age:\n");
     scanf("%d", &age);
     printf("Enter your gpa:\n");
@@ -59,8 +65,7 @@ int main() {
     printf("%s\n", name);
     printf("%d\n", age);
     printf("%f\n", gpa);
-    printf("%c\n", grade);
-    
+    printf("%c\n", grade);    
 
     return 0;
 }
