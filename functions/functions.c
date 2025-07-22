@@ -19,11 +19,52 @@ Key code & terms
     - Keyword used to return a value from a function 
 - ternary conditional operator (x? y:z)
     - if x condition if true then return y if not return z 
+- variable scope
+    - Where a variable is recognisable and accessible
+- function prototype
+    - Provides compiler with information about a functions return type, name
+    & parameters before the function is defined  
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+
+// If we want to organise our code and put the functions below the main function
+// we need to specify function prototypes so we don't get a function declaration
+// error 
+
+void happyBirthday(int age, char name[]); // function prototype 
+double square(double num);
+double cube(double num);
+double add(double x, double y);
+double subtract(double x, double y);
+bool adultCheck(int age);
+
+
+int main() {
+
+    // int age = 0;
+    // char name[50] = "";
+
+    // printf("\nEnter your name: ");
+    // fgets(name, sizeof(name), stdin);
+    // name[strlen(name)-1] = '\0';
+    // printf("Enter your age: ");
+    // scanf("%d", &age); 
+    // happyBirthday(age, name);
+
+    // double res = square(2.5);
+    // printf("%.2lf", res);
+
+    bool res = adultCheck(21);
+    printf("%s", res ? "true" : "false");
+
+    double output = square(2);
+    printf("%2.lf", output);
+
+    return 0;
+}
 
 void happyBirthday(int age, char name[]) {
     printf("\nHappy birthday to you");
@@ -41,30 +82,17 @@ double cube(double num) {
     return num * num * num;
 }
 
+double add(double x, double y) {
+    return x + y;
+}
+
+double subtract(double x, double y) {
+    return x - y;
+}
+
 bool adultCheck(int age) {
     if (age >= 18) {
         return true;
     }
     return false;
-}
-
-int main() {
-
-    // int age = 0;
-    // char name[50] = "";
-
-    // printf("\nEnter your name: ");
-    // fgets(name, sizeof(name), stdin);
-    // name[strlen(name)-1] = '\0';
-    // printf("Enter your age: ");
-    // scanf("%d", &age); 
-    // happyBirthday(age, name);
-
-    // double res = square(2.5);
-    // printf("%.2lf", res);
-
-    bool res = ageCheck(21);
-    printf("%s", res ? "true" : "false");
-
-    return 0;
 }
