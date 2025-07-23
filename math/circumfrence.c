@@ -13,6 +13,19 @@ int main() {
     double circumfrence; 
     double area;
 
+    // Hypotenuse calculator
+    double A;
+    double B;
+    double H;
+
+    printf("Enter side A: ");
+    scanf("%f", A);
+    printf("Enter side B: ");
+    scanf("%f", B);
+
+    H = sqrt(A*A + B*B);
+    printf("Hypotenuse: %lf", H);
+
     // Get radius
     printf("Please enter diameter: ");
     scanf("%lf", &radius);

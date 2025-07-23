@@ -23,15 +23,15 @@ int main() {
 	printf("unsigned short: %d\n", i);
 
 	// regular ints use 4 bytes of memeory 
-	signed int j = -2147483648 // range from (-2,147,483,648 to + 2,147,483,647) 
-	unsigned int k = 4294967297 // range from (0 to +4294967297 or (2^32-1))
+	signed int j = -2147483648; // range from (-2,147,483,648 to + 2,147,483,647) 
+	unsigned int k = 4294967297; // range from (0 to +4294967297 or (2^32-1))
 
 	// long long ints use 8 bytes of memory 
-	signed long long  l = -100000000000000000 // range from (-2^64 to 2^63)
-	unsigned long long m = 10000000000000000 // range from (0 to 2^64)
+	signed long long  l = -100000000000000000; // range from (-2^64 to 2^63)
+	unsigned long long m = 10000000000000000; // range from (0 to 2^64)
 	
 	// CONSTANTS  a fixed value that cannot be altered by the prgoram during execution
-	const float PI = 3.14 
+	const float PI = 3.14; 
 
 
 	return 0;

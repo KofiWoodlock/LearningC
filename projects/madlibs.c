@@ -48,6 +48,5 @@ int main() {
     printf("In the city i saw a %s\n", noun);
     printf("%s was %s and %s!\n", noun, adjective1, verb);
     printf("I was %s\n", adjective2);
-
     return 0;
 }
