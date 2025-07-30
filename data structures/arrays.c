@@ -7,6 +7,23 @@ Key code and terms
 
 #include <stdio.h>
 
+
+void get_scores() {
+
+    // set size of uninitialised array
+    int scores[5] = {0};
+    int len_scores = sizeof(scores) / sizeof(scores[0]);
+
+    for (int i = 0; i < len_scores; i++) {
+        printf("Please enter a score: ");
+        scanf("%d", &scores[i]);
+    }
+    printf("Scores: ");
+    for (int i = 0; i < len_scores; i++) {
+        printf("%d, ", scores[i]);
+    }
+}
+
 int main() {
 
     int percentages[] = {71 , 63, 52, 40, 25, 10, 5};
@@ -21,10 +38,12 @@ int main() {
     names[5] = "Name6";
     names[6] = "Name7";
 
-    // display percentage matching to the grade
-    for (int i = 0; i < len_percentages; i++) {
-        printf("%s scored %d %c for an %c\n",names[i], percentages[i], 37, grades[i]);
-    }
+    // // display percentage matching to the grade
+    // for (int i = 0; i < len_percentages; i++) {
+    //     printf("%s scored %d %c for an %c\n",names[i], percentages[i], 37, grades[i]);
+    // }
+
+    get_scores();
 
 
     return 0;
