@@ -1,5 +1,5 @@
-// Key code and terms 
 /*
+Key code and terms 
 - conditional 
     - A control flow statement that allows a program to execute different
     blocks of code depending on wether certain conditions are ture of false
