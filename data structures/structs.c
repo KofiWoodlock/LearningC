@@ -1,0 +1,3 @@
+/*
+Structs - key code & terms
+*/
