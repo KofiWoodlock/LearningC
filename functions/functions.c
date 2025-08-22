@@ -40,6 +40,7 @@ double cube(double num);
 double add(double x, double y);
 double subtract(double x, double y);
 bool adultCheck(int age);
+int strindex(char s[], char t[]);
 
 
 int main() {
@@ -58,10 +59,12 @@ int main() {
     // printf("%.2lf", res);
 
     bool res = adultCheck(21);
-    printf("%s", res ? "true" : "false");
+    printf("%s\n", res ? "true" : "false");
 
     double output = square(2);
-    printf("%2.lf", output);
+    printf("%2.lf\n", output);
+
+    printf("%d\n", strindex("hello world", "o"));
 
     return 0;
 }
@@ -95,4 +98,15 @@ bool adultCheck(int age) {
         return true;
     }
     return false;
+}
+
+int strindex(char s[], char t[]) {
+    int i, j ,k;
+    for (i = 0; s[i] != '\0'; i++) {
+        for (j=i, k=0; t[k] != '\0' && s[j] == t[k]; j++, k++);
+
+        if (k > 0 && t[k] != '\0')
+            return i;
+    }
+    return -1;
 }
