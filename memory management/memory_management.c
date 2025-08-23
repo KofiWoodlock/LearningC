@@ -18,9 +18,15 @@ Memory management - key terms & code
 - Dangling pointer
     - A pointer that references memory that has been freed and can result in 
     undefined behaviour
+- Segmentation fault
+    - An error that occurs when a program attempts to access a memory address 
+    that it is not allowed access to
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+
+void printarr(char *arr, int len);
 
 int main() {
 
@@ -38,8 +44,36 @@ int main() {
     /* If one char grade uses 1 byte then we need n bytes to store n grades*/
     char *grades = malloc(sizeof(char)*num_of_grades);
 
+    // If an error occurs in the malloc function NULL is returned
+    // We must check for this as derefencing a NULL pointer can lead to a
+    // segmentation fault
+    if (grades == NULL) {
+        printf("Error allocating memory!");
+        return 1;
+    }
+
+    // Assign some grades 
+    for (int i = 0; i < num_of_grades; i++) {
+        printf("Enter grade No.%d ", i+1);
+        scanf(" %c", &grades[i]);
+    }
+
+    printarr(grades, num_of_grades);
+
     free(grades); // WE MUST RETURN MEMORY WE USED BY USING free() TO AVOID LEAKS
     grades = NULL; // WE MUST ALSO SET OUR POINTER TO NULL TO AVOID DANGALING POINTERS
 
     return 0;
+}
+
+void printarr(char *arr, int len) {
+    printf("[");
+    for (int i = 0; i < len; i++) {
+        if (i == len-1) {
+            printf("%c", arr[i]);
+            continue;
+        } else
+            printf("%c,", arr[i]);
+    }
+    printf("]");
 }
