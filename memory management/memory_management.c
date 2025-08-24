@@ -12,7 +12,7 @@ Memory management - key terms & code
 - Calloc
     - (Contiguous allocation) a function to allocate memory dynamically and set all bytes to 0
 - Realloc
-    -
+    - A function used to resize previously allocated memory
 - Free
     - A function used to free memory allocated on the heap
 - Dangling pointer
@@ -29,10 +29,11 @@ Memory management - key terms & code
 void printCharArr(char *arr, int len);
 void printIntArr(int *arr, int len);
 void useCalloc();
+void useRealloc();
 
 int main() {
 
-    useCalloc();
+    useRealloc();
     return 0;
 
     /* In the case where the size of a structure such as an array is not known
@@ -118,4 +119,47 @@ void useCalloc() {
     free(scores); // ALWAUS FREE MEMROY 
     scores = NULL; // ALWAYS SET POINTER TO NULL
 
+}
+
+void useRealloc() {
+
+    int num_of_prices = 0;
+    printf("Enter the number of prices to set: ");
+    scanf("%d", &num_of_prices);
+    float *prices = malloc(sizeof(float)*num_of_prices);
+    if (prices == NULL) {
+        printf("Error allocating memory");
+    }
+
+    for (int i = 0; i < num_of_prices; i++) {
+        printf("Enter price No.%d: ", i+1);
+        scanf("%f", &prices[i]);
+    }
+
+    int new_prices = 0;
+    // realloc() allows us to dynamically increase or decrease the size of our memory
+    printf("How many prices would you like to add? ");
+    scanf("%d", &new_prices);
+
+    float *tmp = realloc(prices, new_prices*sizeof(float));
+    if (tmp == NULL) {
+        printf("Error reallocating memory\n");
+    } else {
+        prices = tmp;
+        tmp = NULL;
+
+        for (int i = num_of_prices; i < num_of_prices+new_prices; i++) {
+            printf("Enter price No.%d: ", i+1);
+            scanf("%f", &prices[i]);
+        }
+    }
+
+    for (int i = 0; i < num_of_prices+new_prices; i++) {
+        printf("Price No.%d: %.2f\n", i+1, prices[i]);
+    }
+
+    // Returning the apartment & key
+    free(prices); // ALWAUS FREE MEMROY 
+    prices = NULL; // ALWAYS SET POINTER TO NULL
+    
 }
