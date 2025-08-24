@@ -10,7 +10,7 @@ Memory management - key terms & code
     - A function used to allocate a specified number of bytes of memory onto the 
     heap
 - Calloc
-    -
+    - (Contiguous allocation) a function to allocate memory dynamically and set all bytes to 0
 - Realloc
     -
 - Free
@@ -26,9 +26,14 @@ Memory management - key terms & code
 #include <stdio.h>
 #include <stdlib.h>
 
-void printarr(char *arr, int len);
+void printCharArr(char *arr, int len);
+void printIntArr(int *arr, int len);
+void useCalloc();
 
 int main() {
+
+    useCalloc();
+    return 0;
 
     /* In the case where the size of a structure such as an array is not known
     before compilation we must dynamically allocate memory
@@ -58,7 +63,7 @@ int main() {
         scanf(" %c", &grades[i]);
     }
 
-    printarr(grades, num_of_grades);
+    printCharArr(grades, num_of_grades);
 
     free(grades); // WE MUST RETURN MEMORY WE USED BY USING free() TO AVOID LEAKS
     grades = NULL; // WE MUST ALSO SET OUR POINTER TO NULL TO AVOID DANGALING POINTERS
@@ -66,7 +71,7 @@ int main() {
     return 0;
 }
 
-void printarr(char *arr, int len) {
+void printCharArr(char *arr, int len) {
     printf("[");
     for (int i = 0; i < len; i++) {
         if (i == len-1) {
@@ -76,4 +81,41 @@ void printarr(char *arr, int len) {
             printf("%c,", arr[i]);
     }
     printf("]");
+}
+
+void printIntArr(int *arr, int len) {
+    printf("[");
+    for (int i = 0; i < len; i++) {
+        if (i == len-1) {
+            printf("%d", arr[i]);
+            continue;
+        } else
+            printf("%d,", arr[i]);
+    }
+    printf("]");
+}
+
+
+void useCalloc() {
+    
+    int num_of_players = 0;
+    printf("Enter the number of players: ");
+    scanf("%d", &num_of_players);
+
+    int *scores = calloc(num_of_players, sizeof(int));
+    if (scores == NULL) {
+        printf("Error allocating memory");
+    }
+
+    for (int i = 0; i < num_of_players; i++) {
+        printf("Enter player %d's score: ", i+1);
+        scanf(" %d", &scores[i]);
+    }
+
+    printIntArr(scores, num_of_players);
+
+    // Returning the apartment & key
+    free(scores); // ALWAUS FREE MEMROY 
+    scores = NULL; // ALWAYS SET POINTER TO NULL
+
 }
