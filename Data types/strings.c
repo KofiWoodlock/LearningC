@@ -9,6 +9,7 @@ Strings - Key terms & code
 */
 
 #include <stdio.h>
+#include <string.h>
 
 #define MAXLINE 1024
 
@@ -16,6 +17,7 @@ void getlongest();
 int getline(char s[], int lim);
 void copy(char s[], char t[]);
 void rmblanks(char in[], char out[]);
+char *reversestr(char s[]);
 
 int main() {
     // Strings in C are represented by arrays of chars 
@@ -85,6 +87,22 @@ void rmblanks(char in[], char out[]) {
         // If we see a whitespace or tab ignore it and do not copy it
             i++; 
     }     
-
 }
 
+/* Reverses input string s */
+char *reversestr(char s[]) {
+    // Intuitive solution is to copy input backwards into new data structure
+    // then overwrite original string with reversed copy
+
+    int i;
+    int j = 0;
+
+    char tmp[] = {0}; // temp string to hold reversed values
+
+    for (int i = strlen(s); i > 0; --i) {
+        s[i] = tmp[j];
+        j++;
+    } 
+
+    return tmp;
+}
