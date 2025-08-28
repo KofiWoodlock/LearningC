@@ -13,16 +13,23 @@ Strings - Key terms & code
 
 #define MAXLINE 1024
 
-void getlongest();
+void printlongest();
 int getline(char s[], int lim);
 void copy(char s[], char t[]);
 void rmblanks(char in[], char out[]);
-char *reversestr(char s[]);
+void reversestr(char *s);
 
 int main() {
     // Strings in C are represented by arrays of chars 
-    char string[] = "Hello";
-    printf("%s", string);
+    // char string[] = "Hello";
+    // printf("%s\n", string);
+
+    char message[] = "Tom Twinkleberry";
+    printf("Original: %s\n", message);
+    reversestr(message);
+    printf("Reversed: %s\n", message);
+
+
 
     return 0;
 }
@@ -90,19 +97,33 @@ void rmblanks(char in[], char out[]) {
 }
 
 /* Reverses input string s */
-char *reversestr(char s[]) {
-    // Intuitive solution is to copy input backwards into new data structure
-    // then overwrite original string with reversed copy
+void reversestr(char *s) {
+    // // Intuitive solution is to copy input backwards into new data structure
+    // // then overwrite original string with reversed copy
 
-    int i;
-    int j = 0;
+    // int i;
+    // int j = 0;
 
-    char tmp[] = {0}; // temp string to hold reversed values
+    // char tmp[1024]; // temp string to hold reversed values
 
-    for (int i = strlen(s); i > 0; --i) {
-        s[i] = tmp[j];
-        j++;
-    } 
+    // for (int i = strlen(s); i > 0; --i) {
+    //     s[i] = tmp[j];
+    //     j++;
+    // }
+    // for (int i = 0; i < strlen(tmp); ++i) {
+    //     printf("%c", tmp[i])s 
+    // }
 
-    return tmp;
+    // Two pointer solution 
+    int l = 0;
+    int r = strlen(s) - 1;
+    char tmp;
+
+    while (l < r) {
+        tmp = s[l];
+        s[l] = s[r];
+        s[r] = tmp;
+        l++;
+        r--;
+    }
 }
