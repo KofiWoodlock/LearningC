@@ -21,8 +21,11 @@ int main() {
     }
     */
 
-    char in[] = "Hi My name is JeFF";
+    char in[1024] = {0};
     char out[1024] = {0};
+
+    for (int i= 0; i < 10; i++) 
+        in[i] = getchar();
 
     escape(in, out);
 
@@ -79,15 +82,18 @@ void escape(char s[], char t[]) {
                 t[j] = '\\';
                 j ++;
                 t[j] = 'n';
+                j++;
                 break;
             case '\t':
                 t[j] = '\\';
                 j ++;
                 t[j] = 't';
+                j++;
                 break;
             default:
                 t[j] = s[i];
                 j++;
+                break;
         }
     }
 }
