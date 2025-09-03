@@ -6,6 +6,8 @@ Pointers - key code & terms
     - returns the memory address of a variable
 - dereference operator (*)
     - returns the value stored at the address pointer to by a pointer
+- void pointer
+    - Used to hold any type of pointer but cannot be dereferenced itself
 */
 
 #include <stdio.h>

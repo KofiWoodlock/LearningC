@@ -35,7 +35,7 @@ int main() {
 }
 
 /* Reads lines of text and prints the longest line */
-void printLongest() {
+void printlongest() {
 
     int len; // Keeps track of each line's length
     int max; // Longest line length
