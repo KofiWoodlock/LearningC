@@ -13,19 +13,28 @@ For loops - key code & terms
     - A keyword used to skip to the next pass within an iteration
 - nested loop
     - A loop that is within another loop
+- windows.h
+    - Windows specific header file containing functions in the Windows API
+- ctype.h
+    - Header file that declares set of functions to classify & transform chars 
 */
 
 #include <stdio.h>
+#include <ctype.h>
 #include <windows.h>
 
-int sqr(int x) {
-    return x * x;
-}
+int sqr(int x);
+int strToInt(char s[]);
 
 int main() {
 
-    // Count up to 10
+    char num[] = "-210";
+    printf("%s\n", num);
+    int res; 
+    res = strToInt(num);
+    printf("%d", res);
 
+    // Count up to 10
     for (int i = 0; i < 10; i++) {
         printf("%d\n", i);
     }
@@ -90,4 +99,23 @@ int main() {
     }
 
     return 0;
+}
+
+/* Returns the square of integer x */
+int sqr(int x) {
+    return x * x;
+}
+
+/* Converts string s to an integer keeping it's sign */
+int strToInt(char s[]) {
+    int i, n, sign;
+
+    for (i = 0; isspace(s[i]); i++)
+        ; // Skip whitespace
+    sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-') 
+        i++; // Skip sign
+    for (n = 0; isdigit(s[i]); i++)
+        n = 10 * n + (s[i] - '0');
+    return sign * n;
 }
