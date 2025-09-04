@@ -22,11 +22,27 @@ For loops - key code & terms
 #include <stdio.h>
 #include <ctype.h>
 #include <windows.h>
+#include <string.h>
 
 int sqr(int x);
 int strToInt(char s[]);
+void reverseStr(char s[]);
+void expand(char s1[], char s2[]);
+static int same_class(int a, int b);
 
 int main() {
+
+    char output[1024] = {0};
+
+    expand("a-z0-9", output);
+    printf("Output: %s", output);
+    return 0;
+
+    char name[] = "Jeff";
+    printf("Name: %s\n", name);
+    reverseStr(name);
+    printf("Reversed name: %s\n", name);
+    return 0;
 
     char num[] = "-210";
     printf("%s\n", num);
@@ -118,4 +134,45 @@ int strToInt(char s[]) {
     for (n = 0; isdigit(s[i]); i++)
         n = 10 * n + (s[i] - '0');
     return sign * n;
+}
+
+/* Reverses string s in place */
+void reverseStr(char s[]) {
+    int i, j;
+    char temp;
+
+    for (i = 0, j = strlen(s) -1; i < j; i++, j--) {
+        temp = s[i];
+        s[i]= s[j];
+        s[j] = temp;
+    }
+}
+
+static int same_class(int a, int b) {
+    return isdigit(a) && isdigit(b) ||
+           islower(a) && islower(b) ||
+           isupper(a) && isupper(b);
+}
+
+/* Takes shorthand notation in s1 and converts it to a full list in s2*/
+void expand(char s1[], char s2[]) {
+    int i, j = 0;
+    
+    for (i = 0; i < s1[i] != '\0'; i++) {
+        if (s1[i] == '-' &&
+            i > 0 && s1[i] != '\0' && // cases of leading or trailing -
+            same_class(s1[i-1], s1[i+1]) && // check range is valid i.e a-z not a-9
+            s1[i-1] < s1[i+1]) { // check range is ascending only i.e not z-a
+
+            int start = s1[i-1]; // starting character of range
+            int end = s1[i+1]; // ending character of range
+
+            for (int c = start+1; c < end; c++) {
+            // copies range into s2
+            s2[j++] = c;
+           }
+        } else 
+            s2[j++] = s1[i];
+    }
+    s2[j] = '\0'; // add null terminator to allow printing via %s
 }
