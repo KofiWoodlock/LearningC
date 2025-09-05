@@ -29,7 +29,11 @@ int main() {
     reversestr(message);
     printf("Reversed: %s\n", message);
 
-
+    /* We must always terminate a char array (string) with a null terminator '\0',
+    to indicate the end of the string, 
+    Additionally, because strings are really char arrays whenever we want to,
+    concatenate data to the end of a string we need to ensure there is enough, 
+    space within the underlying character array. */
 
     return 0;
 }
