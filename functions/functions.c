@@ -46,34 +46,43 @@ double subtract(double x, double y);
 bool adultCheck(int age);
 int strindex(char s[], char t[]);
 void callByValue(int arg);
+void zap(char s[]);
 
 int main() {
 
-    // int age = 0;
-    // char name[50] = "";
+    /*
+    int age = 0;
+    char name[50] = "";
 
-    // printf("\nEnter your name: ");
-    // fgets(name, sizeof(name), stdin);
-    // name[strlen(name)-1] = '\0';
-    // printf("Enter your age: ");
-    // scanf("%d", &age); 
-    // happyBirthday(age, name);
+    printf("\nEnter your name: ");
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name)-1] = '\0';
+    printf("Enter your age: ");
+    scanf("%d", &age); 
+    happyBirthday(age, name);
 
-    // double res = square(2.5);
-    // printf("%.2lf", res);
+    double res = square(2.5);
+    printf("%.2lf", res);
 
-    // bool res = adultCheck(21);
-    // printf("%s\n", res ? "true" : "false");
+    bool res = adultCheck(21);
+    printf("%s\n", res ? "true" : "false");
 
-    // double output = square(2);
-    // printf("%2.lf\n", output);
+    double output = square(2);
+    printf("%2.lf\n", output);
 
-    // printf("%d\n", strindex("hello world", "o"));
+    printf("%d\n", strindex("hello world", "o"));
+    
 
     int var = 5; // main function variable 
     printf("var (main scope) before : %d\n", var);
     callByValue(var); // pass a copy of var
     printf("var (main scope) after: %d\n", var);
+    */
+
+    char message[] = "Hello Aliens";
+    printf("String (main scope): %s\n", message);
+    zap(message); // when passing an array we actually pass a pointer to the array 
+    printf("String (main scope): %s\n", message); // the main scope string is modified by zap
 
     return 0;
 }
@@ -124,4 +133,11 @@ void callByValue(int arg) {
     printf("arg (local scope) before: %d\n", arg);
     arg = arg + 10;
     printf("arg (local scope) after: %d\n", arg);
+}
+
+/* Modifies the passed string to say ZAPPED! */
+void zap(char s[]) {
+    printf("String before zap: %s\n", s);
+    strcpy(s, "ZAPPED!");
+    printf("String after zap: %s\n", s);
 }
