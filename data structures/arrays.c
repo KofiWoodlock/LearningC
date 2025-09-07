@@ -9,24 +9,13 @@ Key code and terms
 
 #include <stdio.h>
 
-
-void get_scores() {
-
-    // set size of uninitialised array
-    int scores[5] = {0};
-    int len_scores = sizeof(scores) / sizeof(scores[0]);
-
-    for (int i = 0; i < len_scores; i++) {
-        printf("Please enter a score: ");
-        scanf("%d", &scores[i]);
-    }
-    printf("Scores: ");
-    for (int i = 0; i < len_scores; i++) {
-        printf("%d, ", scores[i]);
-    }
-}
+void get_scores();
+void buffer_overflow();
 
 int main() {
+
+    buffer_overflow();
+    return 0;
 
     // Create and initialise single dimensional array
     // general code to initialise an array: type array_name[] = {x, y, z};
@@ -86,5 +75,30 @@ int main() {
     //     printf("%s scored %d %c for an %c\n",names[i], percentages[i], 37, grades[i]);
     // }
 
-    return 0;
+}
+
+void get_scores() {
+
+    // set size of uninitialised array
+    int scores[5] = {0};
+    int len_scores = sizeof(scores) / sizeof(scores[0]);
+
+    for (int i = 0; i < len_scores; i++) {
+        printf("Please enter a score: ");
+        scanf("%d", &scores[i]);
+    }
+    printf("Scores: ");
+    for (int i = 0; i < len_scores; i++) {
+        printf("%d, ", scores[i]);
+    }
+}
+
+/* Testing out a buffer overflow */
+void buffer_overflow() {
+    // A buffer overflow occurs when we try to insert more memory into a space 
+    // than we have allocated 
+
+    char unsafe_string[15];
+    gets(unsafe_string);
+    printf("%s\n", unsafe_string);
 }
