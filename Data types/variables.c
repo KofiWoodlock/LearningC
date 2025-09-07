@@ -39,6 +39,10 @@ int main() {
 	// CONSTANTS  a fixed value that cannot be altered by the prgoram during execution
 	const float PI = 3.14; 
 
+	// Register variables - A variable that is stored within the CPU registers instead of main memory 	
+	register int x;
+	register char c;
+
 	printf("signed char:\n- uses %d byte(s) of memory\n- ranges from %.0f to %.0f\n", sizeof(char), -pow(2, CHAR_SIZE_BITS-1), pow(2, CHAR_SIZE_BITS-1)-1);
 	printf("\n");
 	printf("unsigned char:\n- uses %d byte(s) of memory\n- ranges from %.0f to %.0f\n", sizeof(char), 0, pow(2, CHAR_SIZE_BITS)-1);
