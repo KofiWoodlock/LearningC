@@ -1,6 +1,5 @@
 /* 
 Key code & terms
-
 - function 
     - A reusable block of code that can be invoked by calling the function with
     it's required arguments if necessary  
@@ -24,6 +23,11 @@ Key code & terms
 - function prototype
     - Provides compiler with information about a functions return type, name
     & parameters before the function is defined  
+- call by value 
+    - Proccess of passing an argument to a function in which a copy is made that
+    can be modified at the local scope, leaving the original variable unaltered 
+- call by reference
+    - 
 */
 
 #include <stdio.h>
@@ -41,7 +45,7 @@ double add(double x, double y);
 double subtract(double x, double y);
 bool adultCheck(int age);
 int strindex(char s[], char t[]);
-
+void callByValue(int arg);
 
 int main() {
 
@@ -58,13 +62,18 @@ int main() {
     // double res = square(2.5);
     // printf("%.2lf", res);
 
-    bool res = adultCheck(21);
-    printf("%s\n", res ? "true" : "false");
+    // bool res = adultCheck(21);
+    // printf("%s\n", res ? "true" : "false");
 
-    double output = square(2);
-    printf("%2.lf\n", output);
+    // double output = square(2);
+    // printf("%2.lf\n", output);
 
-    printf("%d\n", strindex("hello world", "o"));
+    // printf("%d\n", strindex("hello world", "o"));
+
+    int var = 5; // main function variable 
+    printf("var (main scope) before : %d\n", var);
+    callByValue(var); // pass a copy of var
+    printf("var (main scope) after: %d\n", var);
 
     return 0;
 }
@@ -109,4 +118,10 @@ int strindex(char s[], char t[]) {
             return i;
     }
     return -1;
+}
+
+void callByValue(int arg) {
+    printf("arg (local scope) before: %d\n", arg);
+    arg = arg + 10;
+    printf("arg (local scope) after: %d\n", arg);
 }
