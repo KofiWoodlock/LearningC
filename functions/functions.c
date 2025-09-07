@@ -45,6 +45,7 @@ double add(double x, double y);
 double subtract(double x, double y);
 bool adultCheck(int age);
 int strindex(char s[], char t[]);
+int strindexr(char s[], char t[]);
 void callByValue(int arg);
 void zap(char s[]);
 
@@ -77,12 +78,18 @@ int main() {
     printf("var (main scope) before : %d\n", var);
     callByValue(var); // pass a copy of var
     printf("var (main scope) after: %d\n", var);
-    */
+
 
     char message[] = "Hello Aliens";
     printf("String (main scope): %s\n", message);
     zap(message); // when passing an array we actually pass a pointer to the array 
     printf("String (main scope): %s\n", message); // the main scope string is modified by zap
+    */
+
+    int index;
+    char txt[] = "acbcdc";
+    printf("Leftmost index: %d\n", strindex(txt, "c"));
+    printf("Rightmost index: %d\n", strindexr(txt, "c"));
 
     return 0;
 }
@@ -118,15 +125,29 @@ bool adultCheck(int age) {
     return false;
 }
 
+/* Returns the first index of t in s*/
 int strindex(char s[], char t[]) {
     int i, j ,k;
     for (i = 0; s[i] != '\0'; i++) {
         for (j=i, k=0; t[k] != '\0' && s[j] == t[k]; j++, k++);
 
-        if (k > 0 && t[k] != '\0')
+        if (k > 0 && t[k] == '\0')
             return i;
     }
     return -1;
+}
+
+/* Returns the rightmost index of t in s*/
+int strindexr(char s[], char t[]) {
+    int i, j, k;
+    int rightmost = -1;
+    for (i = 0; s[i] != '\0'; i++) {
+        for (j = i, k = 0; t[k] != '\0' && s[j] == t[k]; j++, k++);
+
+        if (k > 0 && t[k] == '\0')
+            rightmost = i;
+    }
+    return (rightmost != -1) ? rightmost : rightmost;
 }
 
 void callByValue(int arg) {
