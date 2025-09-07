@@ -137,17 +137,28 @@ int strindex(char s[], char t[]) {
     return -1;
 }
 
+/*
+len_s = 5
+len_t = 1 
+
+s = "abcdc"
+t = "c"
+*/
+
 /* Returns the rightmost index of t in s*/
 int strindexr(char s[], char t[]) {
-    int i, j, k;
-    int rightmost = -1;
-    for (i = 0; s[i] != '\0'; i++) {
-        for (j = i, k = 0; t[k] != '\0' && s[j] == t[k]; j++, k++);
+    // Compute lengths of strings initially 
+    int i, j, k, len_s, len_t;
+    
+    for (len_s = 0; s[len_s] != '\0'; len_s++);
+    for (len_t = 0; t[len_t] != '\0'; len_t++);
 
-        if (k > 0 && t[k] == '\0')
-            rightmost = i;
+    for (i = len_s - len_t; len_s > 0; i--) {
+        for (j = i, k = 0; k < len_t && s[j] == t[k]; j++, k++);
+        if (k == len_t)
+            return i;
     }
-    return (rightmost != -1) ? rightmost : rightmost;
+    return -1;
 }
 
 void callByValue(int arg) {
