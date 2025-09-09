@@ -4,20 +4,28 @@ Type conversions - key terms & code
 
 #include <stdio.h>
 #include <ctype.h>
+#include <math.h>
 
 double strtofloat(char s[]);
+int strtoint(char s[]);
+int hextoint(char s[]);
+int chartoint(char n);
 
 int main() {
 
-    char n[] = "15.5";
-    double res = 0;
-    
-    res = strtofloat(n);
-    printf("string float: %s\n", n);
-    printf("converted float: %.2lf\n", res);
-    printf("float less 10: %.2lf", res-10);
-
+    char h[] = "0xFF";
+    hextoint(h);
     return 0;
+
+    // char n[] = "15.5";
+    // double res = 0;
+    
+    // res = strtofloat(n);
+    // printf("string float: %s\n", n);
+    // printf("converted float: %.2lf\n", res);
+    // printf("float less 10: %.2lf", res-10);
+
+    // return 0;
 }
 
 /* Convert string s to a double-precesion float */
@@ -40,4 +48,54 @@ double strtofloat(char s[]) {
         power *= 10.0;
     }
     return sign * val / power;
+}
+
+/* Converts string s to an integer keeping it's sign */
+int strtoint(char s[]) {
+    int i, n, sign;
+
+    for (i = 0; isspace(s[i]); i++)
+        ; // Skip whitespace
+    sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-') 
+        i++; // Skip sign
+    for (n = 0; isdigit(s[i]); i++)
+        n = 10 * n + (s[i] - '0');
+    return sign * n;
+}
+
+int chartoint(char n) {
+    if (n >= '0' && n <= '9') 
+        return n - '0';
+    else
+        return -1;
+}
+
+/* Convers passed hexadecimal value to an integer */
+int hextoint(char s[]) {
+
+    int len, i;
+    int sum = 0;
+    int exponent = 0;
+
+    // Derive input length and convert input to lowercase
+    for (i = 0, len = 0; s[i] != '\0'; i++) {
+        if (isalpha(s[i]))
+            s[i] = tolower(s[i]);
+        len++;
+    } 
+
+    for (i = len - 1; s[i] != 'x'; i--, exponent++) {
+        // Case of a digit 
+        if (isdigit(s[i]))
+            sum += chartoint(s[i]) * pow(16, exponent);
+        else if (s[i] >= 'a' &&  s[i] <= 'f')
+            sum += ((s[i] - 'a') + 10) * pow(16, exponent);
+        else {
+            printf("Error incorrect hex format");
+            return -1;
+        }
+    }
+    printf("result: %d", sum);
+    return sum;
 }
