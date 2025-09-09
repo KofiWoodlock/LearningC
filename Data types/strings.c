@@ -15,11 +15,17 @@ Strings - Key terms & code
 
 void printlongest();
 int getline(char s[], int lim);
+int getlinev2(char s[], int lim);
 void copy(char s[], char t[]);
 void rmblanks(char in[], char out[]);
 void reversestr(char *s);
 
 int main() {
+
+    char buff[1024];
+    getlinev2(buff, 100);
+    return 0;
+
     // Strings in C are represented by arrays of chars 
     // char string[] = "Hello";
     // printf("%s\n", string);
@@ -34,8 +40,6 @@ int main() {
     Additionally, because strings are really char arrays whenever we want to,
     concatenate data to the end of a string we need to ensure there is enough, 
     space within the underlying character array. */
-
-    return 0;
 }
 
 /* Reads lines of text and prints the longest line */
@@ -65,13 +69,38 @@ int getline(char s[], int lim) {
     int c, i;
 
     // Loop until we see a newline character, get to end of file or reach max line length
-    for (i = 0; i < lim && (c = getchar() != EOF) && c != '\n'; ++i) 
+    for (i = 0; i < lim-1 && (c = getchar() != EOF) && c != '\n'; ++i) 
         s[i] = c; // copy current line into the string (char array)
     if (c == '\n') {
         s[i] = c;
         ++i;
     }
     s[i] = '\0';
+    return i;
+}
+
+/* Reads a line into s and returns it's length */
+int getlinev2(char s[], int lim) {
+
+    // Alternative getline function without using && or ||
+
+    int c, i;
+
+    // Loop until we see a newline character, get to end of file or reach max line length
+    for (i = 0; i < lim-1; ++i) {
+        c = getchar();
+        if (c == '\n')
+            break;
+        else if (c == EOF)
+            break;
+        s[i] = c; // copy current line into the string (char array)
+    }
+    if (c == '\n') {
+        s[i] = c;
+        ++i;
+    }
+    s[i] = '\0';
+    printf("Line: %s", s);
     return i;
 }
 
