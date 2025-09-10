@@ -8,13 +8,15 @@ Type conversions - key terms & code
 
 double strtofloat(char s[]);
 int strtoint(char s[]);
-int hextoint(char s[]);
+int hextoint(char h[]);
 int chartoint(char n);
 
 int main() {
 
-    char h[] = "0xFF";
-    hextoint(h);
+    char h[] = "FF";
+    int res;
+    res = hextoint(h);
+    printf("%d", res);
     return 0;
 
     // char n[] = "15.5";
@@ -71,31 +73,61 @@ int chartoint(char n) {
         return -1;
 }
 
-/* Convers passed hexadecimal value to an integer */
-int hextoint(char s[]) {
+// /* Convers passed hexadecimal value to an integer */
+// int hextoint(char s[]) {
 
-    int len, i;
+//     int len, i;
+//     int sum = 0;
+//     int exponent = 0;
+
+//     // Derive input length and convert input to lowercase
+//     for (i = 0, len = 0; s[i] != '\0'; i++) {
+//         if (isalpha(s[i]))
+//             s[i] = tolower(s[i]);
+//         len++;
+//     } 
+
+//     for (i = len - 1; s[i] != 'x'; i--, exponent++) {
+//         // Case of a digit 
+//         if (isdigit(s[i]))
+//             sum += chartoint(s[i]) * pow(16, exponent);
+//         else if (s[i] >= 'a' &&  s[i] <= 'f')
+//             sum += ((s[i] - 'a') + 10) * pow(16, exponent);
+//         else {
+//             printf("Error incorrect hex format");
+//             return -1;
+//         }
+//     }
+//     printf("result: %d", sum);
+//     return sum;
+// }
+
+/* Converts a hexadecimal string literal to an integer value */
+int hextoint(char h[]) {
+
+    char c;
+    int i = 0;
     int sum = 0;
-    int exponent = 0;
+    int val;
 
-    // Derive input length and convert input to lowercase
-    for (i = 0, len = 0; s[i] != '\0'; i++) {
-        if (isalpha(s[i]))
-            s[i] = tolower(s[i]);
-        len++;
-    } 
+    // skip optional hex indicator 0x or 0X
+    if (h[0] == '0' && (h[1] == 'x' || h[1] == 'X'))
+        i = 2;
 
-    for (i = len - 1; s[i] != 'x'; i--, exponent++) {
-        // Case of a digit 
-        if (isdigit(s[i]))
-            sum += chartoint(s[i]) * pow(16, exponent);
-        else if (s[i] >= 'a' &&  s[i] <= 'f')
-            sum += ((s[i] - 'a') + 10) * pow(16, exponent);
+    for (; h[i] != '\0'; i++) {
+        c = tolower(h[i]); 
+        if (isdigit(c))
+            val = c - '0';
+        else if (c >= 'a' && c <= 'f')
+            val = c - 'a' + 10;
         else {
-            printf("Error incorrect hex format");
+            printf("Error! %c is not a valid hex character\n", c);
             return -1;
         }
+        
+        // bitwise shift digits 4 left and
+        // bitwise OR with next value to insert into first 4 bits
+        sum = (sum << 4) | val;
     }
-    printf("result: %d", sum);
     return sum;
 }
