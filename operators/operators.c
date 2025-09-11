@@ -32,8 +32,17 @@ Key terms & code:
 
 void rmchar(char s[], char c);
 void strcat1(char s[], char t[]);
+void squeeze(char s[], char t[]);
 
 int main() {
+
+    char a[] = "01012340101";
+    char b[] = "234";
+    printf("a before: %s\n", a);
+    squeeze(a, b);
+    printf("a after: %s\n", a);
+
+    return 0;
 
     /* Increment and decrement operators can either be prefix (++n) or postfix (n--)
     their result is the same in which they both either decrement or increment a variable by 1
@@ -80,4 +89,19 @@ void strcat1(char s[], char t[]) {
     while (s[i] != '\0') // find end of s
         i++;
     while ((s[i++] = t[j++]) != '\0'); // copy t
+}
+
+
+/* Removes any instance of any char in t from s */
+void squeeze(char s[], char t[]) {
+    int i, j, k;
+    k = 0;
+    for (i = 0; s[i] != '\0'; i++) {
+        for (j = 0; s[i] != t[j] && t[j] != '\0'; j++)
+            ;
+        if (t[j] =='\0')
+            s[k++] = s[i];
+        }
+
+    s[k] = '\0';
 }
