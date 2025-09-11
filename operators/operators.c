@@ -30,6 +30,9 @@ Key terms & code:
 
 #include <stdio.h>
 
+void rmchar(char s[], char c);
+void strcat1(char s[], char t[]);
+
 int main() {
 
     /* Increment and decrement operators can either be prefix (++n) or postfix (n--)
@@ -44,4 +47,37 @@ int main() {
         printf("Prefix (x): %d\n", ++x);
         printf("Prefix (y): %d\n", y++);
     }
+
+    char t[] = "01222101022202122";
+    printf("T before: %s\n" , t);
+    rmchar(t, '2');
+    printf("T after: %s\n" , t);
+
+    char m[64] = "Hello";
+    char n[] = " World!";
+    strcat1(m, n);
+
+    printf("Output: %s\n", m);
+}
+
+/* Removes all instances of character c from string s*/
+void rmchar(char s[], char c) {
+
+    int i, j;
+
+    for (i = j = 0; s[i] != '\0'; i++) {
+        if (s[i] != c) 
+        // non-c char copied into s[j] then j is incremented 
+            s[j++] = s[i];
+    }
+    s[j] = '\0';
+}
+
+/* Concatenates string t with string s - s must be big enough to hold t*/
+void strcat1(char s[], char t[]) { 
+    int i, j;
+    i = j = 0;
+    while (s[i] != '\0') // find end of s
+        i++;
+    while ((s[i++] = t[j++]) != '\0'); // copy t
 }
