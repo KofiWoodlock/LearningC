@@ -51,6 +51,7 @@ void strcat1(char s[], char t[]);
 void squeeze(char s[], char t[]);
 unsigned getbits(unsigned x, int p, int n);
 void inttobin(unsigned int x);
+unsigned setbits(unsigned x, int p, int n, int y);
 
 int main() {
 
@@ -101,6 +102,9 @@ int main() {
     printf("output: %d", output);
     printf("output in bits\n");
     inttobin(output);
+    unsigned res1 = setbits(code, p, n, 7);
+    printf("res1: %d\n", res1);
+    inttobin(res1);
 }
 
 /* Removes all instances of character c from string s*/
@@ -140,20 +144,6 @@ void squeeze(char s[], char t[]) {
     s[k] = '\0';
 }
 
-/* Get n bits from position p */
-unsigned getbits(unsigned x, int p, int n) {
-    return (x >> (p+1-n)) & ~(~0U << n);
-    /* (x >> (p+1-1)) shifts the bits to the rightmost position 
-    ~(~0 << n) creates a mask for the lowest n bits
-    since ~0 sets all bits to 1 e/g in a char it would be 11111111
-    << n moves all bits to left n places filling with 0s
-    so if n was 3 11111111 would be 11111000
-    then ~() inverts the bits to set so 00000111
-    which sets mask to be applied to the bitwise AND operator &
-    */
-
-}
-
 void inttobin(unsigned int x) {
     if (x == 0) { // special case for 0
         putchar('0');
@@ -173,4 +163,24 @@ void inttobin(unsigned int x) {
         }
     }
     putchar('\n');
+}
+
+/* Get n bits from position p */
+unsigned getbits(unsigned x, int p, int n) {
+    return (x >> (p+1-n)) & ~(~0U << n);
+    /* (x >> (p+1-1)) shifts the bits to the rightmost position 
+    ~(~0 << n) creates a mask for the lowest n bits
+    since ~0 sets all bits to 1 e/g in a char it would be 11111111
+    << n moves all bits to left n places filling with 0s
+    so if n was 3 11111111 would be 11111000
+    then ~() inverts the bits to set so 00000111
+    which sets mask to be applied to the bitwise AND operator &
+    */
+
+}
+
+/* Returns x with the n bits that begin at position p set to rightmost n bits of y */
+unsigned setbits(unsigned x, int p, int n, int y) {
+    unsigned mask = getbits(x, p, n);
+    return (x | (mask << (y-n)+1));
 }
