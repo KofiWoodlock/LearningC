@@ -52,6 +52,7 @@ void squeeze(char s[], char t[]);
 unsigned getbits(unsigned x, int p, int n);
 void inttobin(unsigned int x);
 unsigned setbits(unsigned x, int p, int n, int y);
+unsigned flipbits(unsigned x, int p, int n);
 
 int main() {
 
@@ -102,9 +103,16 @@ int main() {
     printf("output: %d", output);
     printf("output in bits\n");
     inttobin(output);
+
     unsigned res1 = setbits(code, p, n, 7);
     printf("res1: %d\n", res1);
     inttobin(res1);
+    printf("\n");
+    unsigned res2 = flipbits(0, p, n);
+    printf("res2: %d\n", res2);
+    inttobin(res2);
+
+    return 0;
 }
 
 /* Removes all instances of character c from string s*/
@@ -181,6 +189,14 @@ unsigned getbits(unsigned x, int p, int n) {
 
 /* Returns x with the n bits that begin at position p set to rightmost n bits of y */
 unsigned setbits(unsigned x, int p, int n, int y) {
-    unsigned mask = getbits(x, p, n);
-    return (x | (mask << (y-n)+1));
+    unsigned mask = (x >> (p+1-n)) & ~(~0U << n);
+    return (x | (mask << (y+1-n)));
+}
+
+/* Returns x with the n bits that begin at position p flipped */
+unsigned flipbits(unsigned x, int p, int n) {
+    // get bits first 
+    unsigned mask = (x >> (p+1-n)) & ~(~0U << n);
+    mask = (1u << n) -1u; // set mask to be all 1s 
+    return (x ^ (mask << (p+1-n)));
 }
