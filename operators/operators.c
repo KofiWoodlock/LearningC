@@ -39,15 +39,21 @@ Key terms & code:
     - (x <<) shifts all bits one place to the left 
 - logical shift right (>>)
     - (x >>) 
+- bitwise NOT (~)
+    - (x ~ y) performs a logical NOT of the binary representations of x and y 
 */
 
 #include <stdio.h>
+#include <limits.h>
 
 void rmchar(char s[], char c);
 void strcat1(char s[], char t[]);
 void squeeze(char s[], char t[]);
+unsigned getbits(unsigned x, int p, int n);
+void inttobin(unsigned int x);
 
 int main() {
+
     printf("------ Operators in C! ------\n");
     printf("\n");
     printf("------ Increment & Decrement operators ------\n");
@@ -69,11 +75,11 @@ int main() {
     rmchar(t, '2');
     printf("T after: %s\n" , t);
 
-    char m[64] = "Hello";
-    char n[] = " World!";
-    strcat1(m, n);
+    char m1[64] = "Hello";
+    char m2[] = " World!";
+    strcat1(m1, m2);
 
-    printf("Output: %s\n", m);
+    printf("Output: %s\n", m1);
 
     char a[] = "01012340101";
     char b[] = "234";
@@ -85,10 +91,16 @@ int main() {
     printf("------ Bitwise operators ------\n");
     unsigned char bits = 4;
     printf("bits: %d LSL: %d LSR: %d\n", bits, (bits << 1), (bits >> 1));
-    // shifting left by one is the same as dividing an integer by two
-    // shifting right by one is the same as multiplying an integer by two
+    // shifting left by one is the same as multiplying an integer by two
+    // shifting right by one is the same as dividing an integer by two
 
-    return 0;
+    unsigned code = 56;
+    int p = 5;
+    int n = 3;
+    unsigned output = getbits(code, p, n);
+    printf("output: %d", output);
+    printf("output in bits\n");
+    inttobin(output);
 }
 
 /* Removes all instances of character c from string s*/
@@ -126,4 +138,39 @@ void squeeze(char s[], char t[]) {
         }
 
     s[k] = '\0';
+}
+
+/* Get n bits from position p */
+unsigned getbits(unsigned x, int p, int n) {
+    return (x >> (p+1-n)) & ~(~0U << n);
+    /* (x >> (p+1-1)) shifts the bits to the rightmost position 
+    ~(~0 << n) creates a mask for the lowest n bits
+    since ~0 sets all bits to 1 e/g in a char it would be 11111111
+    << n moves all bits to left n places filling with 0s
+    so if n was 3 11111111 would be 11111000
+    then ~() inverts the bits to set so 00000111
+    which sets mask to be applied to the bitwise AND operator &
+    */
+
+}
+
+void inttobin(unsigned int x) {
+    if (x == 0) { // special case for 0
+        putchar('0');
+        putchar('\n');
+        return;
+    }
+
+    int bits = sizeof(x) * CHAR_BIT;
+    int started = 0; // flag to indicate first '1' found
+
+    for (int i = bits - 1; i >= 0; i--) {
+        if (x & (1u << i)) {
+            started = 1;      // start printing once we hit the first '1'
+            putchar('1');
+        } else if (started) {
+            putchar('0');
+        }
+    }
+    putchar('\n');
 }
