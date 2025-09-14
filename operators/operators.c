@@ -14,18 +14,31 @@ Key terms & code:
     - (x++) or (++x) adds 1 to a variable 
 - decrement operator (--)
     - (x--) or (--x) subtracts 1 from a variable 
-- Augmented assingment operators
+- augmented assingment operators
     - Used to replace an assignment statement where a variable is one of the arguments 
-- Assingment addition operator (+=)
+- assingment addition operator (+=)
     - (x += y) reassigns the value of x adding the value of y
-- Assignment subtraction operator (-=)
+- assignment subtraction operator (-=)
     - (x -= y) reassigns the value of x subtracting the value of y
-- Assignment multiplication operator (*=)
+- assignment multiplication operator (*=)
     - (x *= y) reassigns the value of x multiplying by the value of y
-- Assignment division operator (/=)
+- assignment division operator (/=)
     - (x /= y) reassigns the value of x dividing by the value of y
-- Assignment modulus operator (%=)
+- assignment modulus operator (%=)
     - (x %= y) reassigns the value of x with the value of x % y
+- bitwise operator
+    - An operator that performs operations on data at the bit level rather than
+    the value level
+- bitwise AND (&)
+    - (x & y) performs a logical AND of the binary representations of x and y
+- bitwise OR (|)
+    - (x | y) performs a logical OR of the binary representations of x and y
+- bitwise XOR (^)
+    - (X ^ y) performs a logical XOR of the binary representations of x and y
+- logical left shift (<<)
+    - (x <<) shifts all bits one place to the left 
+- logical shift right (>>)
+    - (x >>) 
 */
 
 #include <stdio.h>
@@ -35,15 +48,9 @@ void strcat1(char s[], char t[]);
 void squeeze(char s[], char t[]);
 
 int main() {
-
-    char a[] = "01012340101";
-    char b[] = "234";
-    printf("a before: %s\n", a);
-    squeeze(a, b);
-    printf("a after: %s\n", a);
-
-    return 0;
-
+    printf("------ Operators in C! ------\n");
+    printf("\n");
+    printf("------ Increment & Decrement operators ------\n");
     /* Increment and decrement operators can either be prefix (++n) or postfix (n--)
     their result is the same in which they both either decrement or increment a variable by 1
     but the difference is ++n will increment n before n is used but n++ will use n 
@@ -67,6 +74,21 @@ int main() {
     strcat1(m, n);
 
     printf("Output: %s\n", m);
+
+    char a[] = "01012340101";
+    char b[] = "234";
+    printf("a before: %s\n", a);
+    squeeze(a, b);
+    printf("a after: %s\n", a);
+
+    printf("\n");
+    printf("------ Bitwise operators ------\n");
+    unsigned char bits = 4;
+    printf("bits: %d LSL: %d LSR: %d\n", bits, (bits << 1), (bits >> 1));
+    // shifting left by one is the same as dividing an integer by two
+    // shifting right by one is the same as multiplying an integer by two
+
+    return 0;
 }
 
 /* Removes all instances of character c from string s*/
