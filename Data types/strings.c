@@ -19,14 +19,17 @@ int getlinev2(char s[], int lim);
 void copy(char s[], char t[]);
 void rmblanks(char in[], char out[]);
 void reversestr(char *s);
+int any(char s1[], char s2[]);
 
 int main() {
 
-    char buff[1024];
-    getlinev2(buff, 100);
+    char m[] = "Hello World";
+    char n[] = " ";
+    int res = any(m, n);
+    printf("Res: %d", res);
     return 0;
 
-    // Strings in C are represented by arrays of chars 
+    // Strings in C are represented by arrays of chars
     // char string[] = "Hello";
     // printf("%s\n", string);
 
@@ -159,4 +162,22 @@ void reversestr(char *s) {
         l++;
         r--;
     }
+}
+
+/* Returns the first occurence of any character from s2 in s1 */
+int any(char s1[], char s2[]) {
+    
+    int i, j;
+
+    // loop through s1
+    for (i = 0; s1[i] != '\0'; i++) {
+        if (s1[i] == s2[0])
+            return i;
+        else
+            for (j = 1; s2[j] != '\0'; j++) {
+                if (s1[i] == s2[j])
+                    return i;
+            }
+    }
+    return -1; // No s2 chars found 
 }
