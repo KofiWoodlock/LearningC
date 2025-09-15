@@ -20,14 +20,20 @@ void copy(char s[], char t[]);
 void rmblanks(char in[], char out[]);
 void reversestr(char *s);
 int any(char s1[], char s2[]);
+void lower(char s[]);
 
 int main() {
+
+    char upper[] = "HELLO WORLD!";
+    printf("%s\n", upper);
+    lower(upper);
+    printf("%s\n", upper);
+    return 0;
 
     char m[] = "Hello World";
     char n[] = " ";
     int res = any(m, n);
     printf("Res: %d", res);
-    return 0;
 
     // Strings in C are represented by arrays of chars
     // char string[] = "Hello";
@@ -175,4 +181,11 @@ int any(char s1[], char s2[]) {
                 return i;
             }
     return -1; // No s2 chars found 
+}
+
+/* Converts a string to all lower case letters */
+void lower(char s[]) {
+    for (int i = 0; s[i] != '\0'; i++) {
+        (s[i] >= 'A' && s[i] <= 'Z') ? s[i] += ('a'-'A') : s[i];
+    }
 }
