@@ -220,3 +220,13 @@ unsigned rotr(unsigned x, int n) {
     }
     return x;
 }
+
+/* rotr but written by chatgippity */
+unsigned rotr1(unsigned x, int n) {
+    int bits = sizeof(unsigned) * 8; // get number of bits in an unsinged int
+    return (x >> n) | (x << (bits - n));
+    /* x >> n: shift n bits left 
+       x << (bits - n) place first n bits at end of x
+    */
+
+}
