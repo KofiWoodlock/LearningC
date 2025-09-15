@@ -56,6 +56,7 @@ void inttobin(unsigned int x);
 unsigned setbits(unsigned x, int p, int n, int y);
 unsigned flipbits(unsigned x, int p, int n);
 unsigned rotr(unsigned x, int n);
+int bitcount(unsigned x);
 
 int main() {
 
@@ -111,13 +112,20 @@ int main() {
     printf("res1: %d\n", res1);
     inttobin(res1);
     printf("\n");
+
     unsigned res2 = flipbits(0, p, n);
     printf("res2: %d\n", res2);
     inttobin(res2);
     printf("\n");
+
     unsigned res3 = rotr(15, 4);
     printf("res3: %u\n", res3);
     inttobin(res3);
+    printf("\n");
+
+    // Count how many bits are in any unsigned integer
+    int integer = 15;
+    printf("Number of bits in %d: %d", integer, bitcount(integer));
 
     return 0;
 }
@@ -229,4 +237,14 @@ unsigned rotr1(unsigned x, int n) {
        x << (bits - n) place first n bits at end of x
     */
 
+}
+
+/* Counts the number of 1 bits in x */
+int bitcount(unsigned x) {
+    int bits;
+    for (bits = 0; x != 0; x >>= 1) {
+        if (x & 01)
+            bits++;
+    } 
+    return bits;
 }
