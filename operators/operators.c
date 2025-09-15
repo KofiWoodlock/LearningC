@@ -46,6 +46,8 @@ Key terms & code:
 #include <stdio.h>
 #include <limits.h>
 
+#define INT_MSB 2147483648
+
 void rmchar(char s[], char c);
 void strcat1(char s[], char t[]);
 void squeeze(char s[], char t[]);
@@ -53,6 +55,7 @@ unsigned getbits(unsigned x, int p, int n);
 void inttobin(unsigned int x);
 unsigned setbits(unsigned x, int p, int n, int y);
 unsigned flipbits(unsigned x, int p, int n);
+unsigned rotr(unsigned x, int n);
 
 int main() {
 
@@ -111,6 +114,10 @@ int main() {
     unsigned res2 = flipbits(0, p, n);
     printf("res2: %d\n", res2);
     inttobin(res2);
+    printf("\n");
+    unsigned res3 = rotr(15, 4);
+    printf("res3: %u\n", res3);
+    inttobin(res3);
 
     return 0;
 }
@@ -199,4 +206,17 @@ unsigned flipbits(unsigned x, int p, int n) {
     unsigned mask = (x >> (p+1-n)) & ~(~0U << n);
     mask = (1u << n) -1u; // set mask to be all 1s 
     return (x ^ (mask << (p+1-n)));
+}
+
+/* Returns the value of integer x rotated to the right by n bits */
+unsigned rotr(unsigned x, int n) {
+    unsigned lsb;
+
+    for (int i = 0; i < n; i++) { 
+        lsb = x & 1;
+        x >>= 1;
+        if (lsb == 1)
+            x |= INT_MSB;
+    }
+    return x;
 }
