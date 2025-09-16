@@ -12,7 +12,11 @@ While loops - key code & terms
 
 void guessTheNum();
 void itoa(int n, char s[]);
-void inttostr(int x, char s[]);
+void itob(int n, char s[], int b);
+void inttostr(int n, char s[]);
+void inttobin(int n, char s[]);
+void inttohex(int n, char s[]);
+void inttooct(int n, char s[]);
 
 int main() {
     // Regular while loop
@@ -34,10 +38,41 @@ int main() {
         scanf("%d", &num);
     } while (num <= 0);
 
+    printf("------ Exercises ------\n");
+    printf("\n");
+    printf("------ Exercise 3-4 ------\n");
     num = INT_MIN;
     char buff[1024] = {0}; 
     itoa(num, buff);
     printf("Num as decimal: %d, Num as string: %s\n", num, buff);
+
+    printf("------ Exercise 3-5 ------\n");
+    char res1[1024];
+    char res2[1024];
+    char res3[1024];
+    char res4[1024];
+    char res5[1024];
+    char res6[1024];
+
+    printf("Test integer -> binary conversion\n");
+    itob(33, res1, 2);
+    printf("33 (decimal) -> %s (binary) \n", res1);
+    itob(-5, res2, 2);
+    printf("-5 (decimal) -> %s (binary) \n", res2);
+    printf("\n");
+
+    printf("Test integer -> hexadecimal conversion\n");
+    itob(495, res3, 16);
+    printf("495 (decmimal) -> %s (hex)\n", res3);
+    itob(-90, res4, 16);
+    printf("-90 (decmimal) -> %s (hex)\n", res4);
+    printf("\n");
+
+    printf("Test integer -> octal conversion\n");
+    itob(62, res5, 8);
+    printf("62 (decimal) -> %s (octal)\n", res5);
+    itob(-8, res6, 8);
+    printf("-8 (decimal) -> %s (octal)\n", res6);
 
     return 0;
 }
@@ -102,17 +137,95 @@ void itoa(int n, char s[]) {
     strrev(s);
 }
 
-/* Converts int x to a string stored in s */
-void inttostr(int x, char s[]) {
+/* Converts integer n to representation of base b */
+void itob(int n, char s[], int b) {
+    switch (b) {
+        case 2:
+            inttobin(n, s);
+            break;
+        case 8:
+            inttooct(n, s);
+            break;
+        case 10:
+            inttostr(n, s);
+            break;
+        case 16:
+            inttohex(n, s);
+            break;
+        default:
+            printf("Error: base %d is not supported.\n", b);
+    }    
+}
+
+/* Converts int n to a string stored in s */
+void inttostr(int n, char s[]) {
     int i = 0;
-    int sign = x;
+    int sign = n;
 
     do {
-        int digit = x % 10;
+        int digit = n % 10;
         if (digit < 0) 
             digit = -digit; // handle negative remainder safely
         s[i++] = '0' + digit;
-    } while ((x /= 10) != 0);
+    } while ((n /= 10) != 0);
+
+    if (sign < 0)
+        s[i++] = '-';
+    s[i] = '\0';
+    strrev(s);
+}
+
+void inttobin(int n, char s[]) {
+    if (n == 0) { // special case for 0
+        s[0] = '0';
+        s[1] = '\0';
+        return;
+    }
+
+    int i;
+    int j = 0;
+    int bits = sizeof(n) * CHAR_BIT;
+
+    for (i = bits - 1; i >= 0; i--)
+        s[j++] = ((n >> i) & 01) + '0';
+
+    s[j] = '\0';
+}
+
+/* Converts integer n to hex format */
+void inttohex(int n, char s[]) {
+    int i;
+    int sign = n;
+
+    i = 0;
+    do {
+        int digit = n % 16;
+        if (digit < 0) 
+            digit = -digit; // handle negative remainder safely
+        if (digit < 10)
+            s[i++] = '0' + digit;
+        else if (digit >= 10 && digit <= 16)
+            s[i++] = ('A' + digit)-10;
+    } while ((n /= 16) != 0);
+
+    if (sign < 0)
+        s[i++] = '-';
+    s[i] = '\0';
+    strrev(s);
+}
+
+/* Converts integer n to hex format */
+void inttooct(int n, char s[]) {
+    int i;
+    int sign = n;
+
+    i = 0;
+    do {
+        int digit = n % 8;
+        if (digit < 0) 
+            digit = -digit; // handle negative remainder safely
+        s[i++] = digit + '0';
+    } while ((n /= 8) != 0);
 
     if (sign < 0)
         s[i++] = '-';
