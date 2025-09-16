@@ -12,9 +12,9 @@ While loops - key code & terms
 
 void guessTheNum();
 void itoa(int n, char s[]);
+void inttostr(int x, char s[]);
 
 int main() {
-
     // Regular while loop
     printf("------ While Loops ------\n");
     int num = 0;
@@ -96,6 +96,24 @@ void itoa(int n, char s[]) {
     do {
         s[i++] = num % 10 + '0';
     } while ((num /= 10) > 0);
+    if (sign < 0)
+        s[i++] = '-';
+    s[i] = '\0';
+    strrev(s);
+}
+
+/* Converts int x to a string stored in s */
+void inttostr(int x, char s[]) {
+    int i = 0;
+    int sign = x;
+
+    do {
+        int digit = x % 10;
+        if (digit < 0) 
+            digit = -digit; // handle negative remainder safely
+        s[i++] = '0' + digit;
+    } while ((x /= 10) != 0);
+
     if (sign < 0)
         s[i++] = '-';
     s[i] = '\0';
