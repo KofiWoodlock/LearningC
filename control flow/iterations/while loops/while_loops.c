@@ -8,6 +8,7 @@ While loops - key code & terms
 
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 void guessTheNum();
 void itoa(int n, char s[]);
@@ -33,8 +34,8 @@ int main() {
         scanf("%d", &num);
     } while (num <= 0);
 
-    num = 123;
-    char buff[10] = {0}; 
+    num = INT_MIN;
+    char buff[1024] = {0}; 
     itoa(num, buff);
     printf("Num as decimal: %d, Num as string: %s\n", num, buff);
 
@@ -59,16 +60,42 @@ void guessTheNum() {
     }
 }
 
-/* Converts integer n to a string */
+/*
+Non functional
+onverts integer n to a string
 void itoa(int n, char s[]) {
     int i, sign;
 
     if ((sign = n) < 0) // Record sign
-        n = -n; // make n positive 
+        n = -n; // make positive
+
+        Current function breaks when trying to conver signed INT_MIN as
+        we cannot convert it to a positive 
+
     i = 0;
+    printf("n: %ld\n", n);
     do {
         s[i++] = n % 10 + '0'; // get next digits 
     } while ((n /= 10) > 0); // remove digit from n
+    if (sign < 0)
+        s[i++] = '-';
+    s[i] = '\0';
+    strrev(s);
+}
+*/
+
+void itoa(int n, char s[]) {
+    int i;
+    long long num = n;
+    int sign = n;
+
+    if (num < 0)
+        num = -num;
+    
+    i = 0;
+    do {
+        s[i++] = num % 10 + '0';
+    } while ((num /= 10) > 0);
     if (sign < 0)
         s[i++] = '-';
     s[i] = '\0';
