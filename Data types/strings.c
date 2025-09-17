@@ -17,7 +17,7 @@ void printlongest();
 int getline(char s[], int lim);
 int getlinev2(char s[], int lim);
 void copy(char s[], char t[]);
-void rmblanks(char in[], char out[]);
+void rmblanks(char s[]);
 void reversestr(char *s);
 int any(char s1[], char s2[]);
 void lower(char s[]);
@@ -28,7 +28,6 @@ int main() {
     printf("%s\n", upper);
     lower(upper);
     printf("%s\n", upper);
-    return 0;
 
     char m[] = "Hello World";
     char n[] = " ";
@@ -49,6 +48,13 @@ int main() {
     Additionally, because strings are really char arrays whenever we want to,
     concatenate data to the end of a string we need to ensure there is enough, 
     space within the underlying character array. */
+
+    char email[] = "xyz@gmail.com       ";
+    printf("Unformatted email:%s:\n", email);
+    rmblanks(email);
+    printf("Formatted email:%s:\n", email);
+
+    return 0;
 }
 
 /* Reads lines of text and prints the longest line */
@@ -121,21 +127,15 @@ void copy(char s[], char t[]) {
         ++i;
 }
 
-/* Removes all trailing whitespace, tabs and blank lines from input */
-/* Assumes only trailing whitespace, assumes no whitespace in input */
-void rmblanks(char in[], char out[]) {
-
-    int i = 0;
-    // Loop until we get to end of the line
-    while (in[i] != '\0') {
-        if (in[i] != ' ' && in[i] != '\t') {
-            out[i] = in[i];
-            i++;
+/* Removes all trailing whitespace, tabs and newlines from input */
+void rmblanks(char s[]) {
+    int i;
+    // Loop backwards through string
+    for (i = strlen(s)-1; i >= 0; i--)
+        if (s[i] != ' ' && s[i] != '\t' && s[i] != '\n') {
+            break;
         }
-        else
-        // If we see a whitespace or tab ignore it and do not copy it
-            i++; 
-    }     
+    s[i+1] = '\0';
 }
 
 /* Reverses input string s */
