@@ -12,6 +12,7 @@ While loops - key code & terms
 
 void guessTheNum();
 void itoa(int n, char s[]);
+void itoav2(int n, char s[], int w);
 void itob(int n, char s[], int b);
 void inttostr(int n, char s[]);
 void inttobin(int n, char s[]);
@@ -74,6 +75,11 @@ int main() {
     itob(-8, res6, 8);
     printf("-8 (decimal) -> %s (octal)\n", res6);
 
+    printf("------ Exercise 3-6 ------\n");
+    char output[1024];
+    itoav2(42, output, 4);
+    printf("Output:%s", output);
+
     return 0;
 }
 
@@ -119,6 +125,7 @@ void itoa(int n, char s[]) {
 }
 */
 
+/* Converts integer n to a string in s */
 void itoa(int n, char s[]) {
     int i;
     long long num = n;
@@ -133,6 +140,27 @@ void itoa(int n, char s[]) {
     } while ((num /= 10) > 0);
     if (sign < 0)
         s[i++] = '-';
+    s[i] = '\0';
+    strrev(s);
+}
+
+/* Converts integer n to a string in s with a min field width of w */
+void itoav2(int n, char s[], int w) {
+    int i;
+    long long num = n;
+    int sign = n;
+
+    if (num < 0)
+        num = -num;
+    
+    i = 0;
+    do {
+        s[i++] = num % 10 + '0';
+    } while ((num /= 10) > 0);
+    if (sign < 0)
+        s[i++] = '-';
+    while (i < w)
+        s[i++] = ' ';
     s[i] = '\0';
     strrev(s);
 }
