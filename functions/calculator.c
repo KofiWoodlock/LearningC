@@ -5,16 +5,21 @@
 #define NUM '0' /* Signal that number found */
 #define TOOBIG '9' /* Signal that string to too large */
 #define MAXVAL 100 /* Max depth of stack */
+#define BUFSIZE 100
 
 // External variables 
 int sp = 0; /* Stack pointer */
 double operands[MAXVAL]; /* Operands stack */
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
 
 double push(double f);
 double pop();
 double strtofloat(char s []);
 char getop(char s[], int max);
 void clear();
+int getch();
+void ungetch(int c);
 
 int main() {
 
@@ -110,4 +115,17 @@ char getop(char s[], int max) {}
 /* Clears contents of stack */
 void clear() {
     sp = 0;
+}
+
+/* get a possibly pushed back character */
+int getch() {
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+/* push character back onto input */
+void ungetch(int c) {
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++] = c;
 }
