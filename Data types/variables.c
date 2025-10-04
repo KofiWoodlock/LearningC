@@ -1,4 +1,13 @@
-// Data types and variables in c
+/*
+Data types and variables in c
+	- External variable
+		- a variable declared outside of a function making it accessible to 
+		multiple functions across many source files. Their scope is the entire 
+		program
+	- External linkage
+		- allows identifiers such as variables and functions to be accessible 
+		across mutliple source code files
+*/
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
@@ -7,6 +16,11 @@
 #define SHORT_SIZE_BITS sizeof(short) * 8
 #define INT_SIZE_BITS sizeof(int) * 8
 #define LONG_LONG_SIZE_BITS sizeof(long long) * 8
+
+void extrnal_vars();
+
+int speed = 20; // External variable 
+
 
 int main() {
 	char a = 'A'; // Represents a single character %c
@@ -41,7 +55,7 @@ int main() {
 
 	// Register variables - A variable that is stored within the CPU registers instead of main memory 	
 	register int x;
-	register char c;
+	register char character;
 
 	printf("signed char:\n- uses %d byte(s) of memory\n- ranges from %.0f to %.0f\n", sizeof(char), -pow(2, CHAR_SIZE_BITS-1), pow(2, CHAR_SIZE_BITS-1)-1);
 	printf("\n");
@@ -62,6 +76,21 @@ int main() {
 	printf("float:\n- uses %d bytes of memory\n", sizeof(float));
 	printf("\n");
 	printf("double:\n- uses %d bytes of memory\n", sizeof(double));
-	
+
+	printf("------ External Variables ------\n");
+	printf("speed: %d\n", speed);
+	extrnal_vars();
+	printf("speed: %d\n", speed);	
+
 	return 0;
 }
+
+void extrnal_vars() {
+	/* All references to external (global) variables are references to the same
+	thing */
+	// Lets say we want to alter a game attribute of speed in different functions
+	speed += 10;
+	// Global (external) variables have a longer lifetime compared to local variables
+	// who only exist for the duration of a function call
+}
+
