@@ -10,15 +10,14 @@ double strtofloat(char s[]);
 int strtoint(char s[]);
 int hextoint(char h[]);
 int chartoint(char n);
-double atof(char s[]);
+// double atof(char s[]);
 
 int main() {
 
     char h[] = "FF";
     int res;
     res = hextoint(h);
-    printf("%d", res);
-    return 0;
+    printf("%d\n", res);
 
     // char n[] = "15.5";
     // double res = 0;
@@ -28,15 +27,25 @@ int main() {
     // printf("converted float: %.2lf\n", res);
     // printf("float less 10: %.2lf", res-10);
 
-    // return 0;
+    char decimal[] = "15.567";
+    double output = strtofloat(decimal); 
+    printf("Output: %.3lf\n", output);
+
+    char scnotation[] = "1.5567e+1";
+    double output1 = strtofloat(scnotation); 
+    printf("Output1: %lf\n", output1);
+
+    return 0;
 }
 
 /* Convert string s to a double-precesion float */
 double strtofloat(char s[]) {
 
     double val, power;
-    int i, sign;
+    int i, sign, exp_sign;
+    int exponent = 0;
 
+    /* Skip preceding whitespaces */
     for (i = 0; isspace(s[i]); i++);
 
     sign = (s[i] == '-') ? -1 : 1;
@@ -50,7 +59,22 @@ double strtofloat(char s[]) {
         val = 10.0 * val + (s[i] - '0');
         power *= 10.0;
     }
-    return sign * val / power;
+    /* Check if number is in scientific notation */
+    if (tolower(s[i]) == 'e') {
+        i++;
+    } else {
+        return sign * val / power;
+    }
+    /* Get the sign of the exponent to know whether number is larger or smaller */
+    exp_sign = (s[i++] == '-') ? -1 : 1;
+    /* Get the integer exponent */
+    for (i; isdigit(s[i]); i++) {
+        exponent = 10 * exponent + (s[i] - '0'); 
+    }
+    if (exp_sign > 0)
+        return (val / power) * pow(10, exponent);
+    else
+        return (val / power) / pow(10, exponent);
 }
 
 /* Converts string s to an integer keeping it's sign */
@@ -134,23 +158,23 @@ int hextoint(char h[]) {
 }
 
 /* Converts string s into it's double precision equivilant */
-double atof(char s[]) {
-    double val, power;    
-    int i, sign;
+// double atof(char s[]) {
+//     double val, power;    
+//     int i, sign;
     
-    /* Skip whitespaces */
-    for (i = 0; isspace(s[i]); i++)
-        ;
-    sign = (s[i] == '-') ? -1 : 1; 
-    if (s[i] == '+' || s[i] == '-')
-        i++;
-    for (val = 0.0; isdigit(s[i]); i++)
-        val = 10.0 * val + s[i] - '0'; 
-    if (s[i] == '.')
-        i++;
-    for (power = 1.0; isdigit(s[i]); i++) {
-        val = 10.0 * val + (s[i] - '0');
-        power *= 10.0;
-    }
-    return sign * val / power;
-}
+//     /* Skip whitespaces */
+//     for (i = 0; isspace(s[i]); i++)
+//         ;
+//     sign = (s[i] == '-') ? -1 : 1; 
+//     if (s[i] == '+' || s[i] == '-')
+//         i++;
+//     for (val = 0.0; isdigit(s[i]); i++)
+//         val = 10.0 * val + s[i] - '0'; 
+//     if (s[i] == '.')
+//         i++;
+//     for (power = 1.0; isdigit(s[i]); i++) {
+//         val = 10.0 * val + (s[i] - '0');
+//         power *= 10.0;
+//     }
+//     return sign * val / power;
+// }
