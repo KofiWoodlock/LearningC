@@ -1,6 +1,9 @@
 /* Calculator program using Reverse Polish Notation (RPN) to evaluate expressions */
 
 #include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+
 #define MAXOP 20 /* Maximmum size of operand, operator*/
 #define NUM '0' /* Signal that number found */
 #define TOOBIG '9' /* Signal that string to too large */
@@ -13,24 +16,26 @@ double operands[MAXVAL]; /* Operands stack */
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
 
-double push(double f);
+void push(double f);
 double pop();
-double strtofloat(char s []);
-char getop(char s[], int max);
-void clear();
+int getop(char s[]);
 int getch();
 void ungetch(int c);
 
 int main() {
 
+    printf("Reverse polish notation calculator\n");
+    printf("\n");
+
     int type;
     char s[MAXOP];
     double op2;
+    double op1;
 
-    while (type = getop(s, MAXOP) != EOF) {
+    while ((type = getop(s)) != EOF) {
         switch (type) {
             case NUM:
-                push(strtofloat(s));
+                push(atof(s));
                 break;
             case '+':
                 push(pop() + pop());
@@ -47,74 +52,71 @@ int main() {
                 if (op2 != 0.0)
                     push(pop() / op2);
                 else
-                    printf("ERR! DIVISION BY 0");
+                    printf("Error! division by 0\n");
                 break;
-            case '=':
-                printf("\t%2.lf\n", push(pop()));
+            case '%':
+                op2 = pop();
+                op1 = pop();
+                if (op2 == (int)op2 && op1 == (int)op1)
+                    push((int)op1 % (int)op2);
+                else
+                    printf("Error! %% can only take integer operands\n");
                 break;
-            case 'c':
-                clear();
+            case '\n':
+                printf("\t%.2lf\n", pop());
                 break;
             case TOOBIG:
-                printf("ERR! Input is too long.\n");
+                printf("Error! Input is too long\n");
                 break;
             default:
-                printf("ERR! Unkown input");
+                printf("Error! Unkown input: %s \n", s);
                 break;
         }
     }
-
     return 0;
 }
 
 /* Pushes f onto the operands stack */
-double push(double f) {
-    if (sp < MAXVAL) 
-        return (operands[sp++] = f);
+void push(double f) {
+    if (sp < MAXVAL) {
+        operands[sp++] = f;
+    }
     else {
-        printf("ERR! Stack overflow");
-        clear();
-        return(0);
+        printf("Error! Stack overflow\n");
     }
 }
 
 /* Removes and returns top value of operands stack */
 double pop() {
     if (sp > 0)
-        return (operands[sp--]);
+        return (operands[--sp]);
     else {
-        printf("ERR! Stack is empty");
-        clear();
-        return (0);
+        printf("Error! Stack is empty\n");
+        return 0.0;
     }
 }
 
-double strtofloat(char s[]) {
+/* get next operator or numeric operand */
+int getop(char s[]) {
+    int i, c;
 
-    double val, power;
-    int i, sign;
-
-    for (i = 0; isspace(s[i]); i++);
-
-    sign = (s[i] == '-') ? -1 : 1;
-    if (s[i] == '+' || s[i] == '-')
-        i++;
-    for (val = 0.0; isdigit(s[i]); i++)
-        val = 10.0 * val + (s[i] - '0');
-    if (s[i] == '.')
-        i++;
-    for (power = 1.0; isdigit(s[i]); i++) {
-        val = 10.0 * val + (s[i] - '0');
-        power *= 10.0;
-    }
-    return sign * val / power;
-}
-
-char getop(char s[], int max) {}
-
-/* Clears contents of stack */
-void clear() {
-    sp = 0;
+    // Skip whitespace
+    while ((s[0] = c = getch()) == ' ' || c == '\t')
+        ;
+    s[1] = '\0';
+    if (!isdigit(c) && c != '.')
+        return c; /* Not a number */
+    i = 0;
+    if (isdigit(c)) /* Collect integer part */
+        while (isdigit(s[++i] = c = getch())) 
+            ;
+    if (c == '.') /* Collect fractional part */
+        while (isdigit(s[++i] = c = getch()))
+            ;
+    s[i] = '\0';
+    if (c != EOF)
+        ungetch(c);
+    return NUM;
 }
 
 /* get a possibly pushed back character */
