@@ -18,9 +18,12 @@ int bufp = 0; /* next free position in buf */
 
 void push(double f);
 double pop();
+void peek();
+void swap();
 int getop(char s[]);
 int getch();
 void ungetch(int c);
+void printstck();
 
 int main() {
 
@@ -96,6 +99,24 @@ double pop() {
     }
 }
 
+/* Prints the top element of the stack but does not remove it */
+void peek() {
+    printf("%.2lf\n", operands[sp]);
+}
+
+/* Swaps the top two elements of the stack */
+void swap() {
+    double tmp;
+
+    if (sp < 2)
+        printf("Cannot swap 1 element");
+    else {
+        operands[sp] = tmp;
+        operands[sp] = operands[sp-1];
+        operands[sp-1] = tmp;
+    }
+}
+
 /* get next operator or numeric operand */
 int getop(char s[]) {
     int i, c;
@@ -130,4 +151,14 @@ void ungetch(int c) {
         printf("ungetch: too many characters\n");
     else
         buf[bufp++] = c;
+}
+
+/* Prints the current contents of the operands stack */
+void printstck() {
+    int len = sizeof(operands) / sizeof(double);
+    printf("[");
+    for (int i = 0; i < len; i++)
+        printf("%.2lf ", operands[i]);
+    printf("]");
+    printf("\n");
 }
