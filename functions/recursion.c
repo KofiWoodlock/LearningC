@@ -7,6 +7,9 @@ Key code & terms
 #include <stdio.h>
 
 int sumn(int n);
+void printd(int n);
+void quicksort(int v[], int left, int right);
+void swap(int v[], int i, int j);
 
 int main() {
 
@@ -14,6 +17,8 @@ int main() {
 
     result = sumn(100);
     printf("Result of sumn: %d\n", result);
+    int number = 123;
+    printd(number);
 
     return 0;
 }
@@ -28,4 +33,43 @@ int sumn(int n) {
     sum = sumn(x);
     rval = n + sum;
     return rval;
+}
+
+/* print n in decimal string format */
+void printd(int n) {
+    if (n < 0) {
+        putchar('-');
+        n = -n;
+    }
+    if (n / 10)
+        printd(n / 10);
+    putchar(n % 10 + '0');
+}
+
+/* sorts integer array v into ascending order */
+void quicksort(int v[], int left, int right) {
+
+    int i, last;
+    void swap(int v[], int i, int j);
+
+    if (left >= right) /* Do nothing if arr has <2 elements */
+        return;
+    swap(v, left, (left + right)/2); /* Move partition element to v[0] */
+    last = left;
+    for (i = left+1; i <= right; i++)
+        if (v[i] < v[left])
+            swap(v, ++last, i);
+    swap(v, left, last); /* Restore partition element */
+    quicksort(v, left, last-1);
+    quicksort(v, last+1, right);
+}
+
+/* interchange v[i] and v[j] */
+void swap(int v[], int i, int j) {
+
+    int tmp;
+    tmp = v[i];
+    v[i] = v[j];
+    v[j] = tmp;
+
 }
