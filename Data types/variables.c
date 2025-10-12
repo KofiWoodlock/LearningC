@@ -7,6 +7,10 @@ Data types and variables in c
 	- External linkage
 		- allows identifiers such as variables and functions to be accessible 
 		across mutliple source code files
+	- Static variable
+		- a variable whose memory persists for the entire execution of the program
+		static global variables have a limited scope to the source file it's 
+		declared in (internal linkage)
 */
 #include <stdio.h>
 #include <stdbool.h>
