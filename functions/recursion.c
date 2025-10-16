@@ -10,6 +10,7 @@ int sumn(int n);
 void printd(int n);
 void quicksort(int v[], int left, int right);
 void swap(int v[], int i, int j);
+int decimaltostr(int n, char s[], int i);
 
 int main() {
 
@@ -19,6 +20,12 @@ int main() {
     printf("Result of sumn: %d\n", result);
     int number = 123;
     printd(number);
+    printf("\n");
+    printf("Converting int to str using recusrion\n");
+    int x = 123;
+    char output[7]; 
+    decimaltostr(x, output, 0);
+    printf("\"%s\"", output);
 
     return 0;
 }
@@ -72,4 +79,18 @@ void swap(int v[], int i, int j) {
     v[i] = v[j];
     v[j] = tmp;
 
+}
+
+/* Converts integer n to string representation */
+int decimaltostr(int n, char s[], int i) {
+
+    if (n < 0) {
+        s[i++] = '-';
+        n = -n;
+    } 
+    if (n / 10)
+        i = decimaltostr(n / 10, s, i);
+    s[i++] = (n % 10 + '0');   
+    s[i] = '\0';
+    return i;
 }
