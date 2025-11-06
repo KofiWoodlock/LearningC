@@ -12,32 +12,45 @@ Pointers - key code & terms
 
 #include <stdio.h>
 #include <ctype.h>
-#include "ansiclib.h"
+
+#define SIZE 10
+#define BUFSIZE 100
 
 void incrementInt(int* integer);
 void main2();
 void swap(int *px, int *py);
 int getint(int *pn);
+int getch(void);
+void ungetch(int c);
+
+char buf[BUFSIZE]; /* buffer for ungetch */
+int bufp = 0; /* next free position in buf */
 
 int main() {
 
-    main2();
-    return 0;
+    // main2();
+    // return 0;
 
-    int age = 25;
-    printf("%p\n", &age); // %p is the format specifier for pointer addresses  
+    // int age = 25;
+    // printf("%p\n", &age); // %p is the format specifier for pointer addresses  
 
-    // create a pointer 
-    int *pAge = &age;
-    // increment age by passing it's reference to a function 
-    incrementInt(pAge);
-    printf("%d\n", age);
+    // // create a pointer 
+    // int *pAge = &age;
+    // // increment age by passing it's reference to a function 
+    // incrementInt(pAge);
+    // printf("%d\n", age);
 
-    // Void pointers provided a way to return a general address, disregarding the 
-    // type of data being stored at that address.
-    void * alloc();
-    int *vals = (int *) alloc(42);
+    // // Void pointers provided a way to return a general address, disregarding the 
+    // // type of data being stored at that address.
+    // void * alloc();
+    // int *vals = (int *) alloc(42);
 
+    printf("---- getint ----\n");
+    int n, nums[SIZE];
+    for (n = 0; n < SIZE && getint(&nums[n]) != EOF; n++)
+        ;
+    for (int i = 0; i < sizeof(nums) / sizeof(int); i++)
+        printf("nums[%d]: %d\n", i, nums[i]);
 }
 
 // functions in C are passed by value
@@ -93,7 +106,20 @@ int getint(int *pn) {
     for (*pn = 0; isdigit(c); c = getch())
         *pn = 10 * *pn +  (c - '0');
     *pn *= sign;
-    if (c == EOF)
+    if (c != EOF)
         ungetch(c);
     return c;
+}
+
+/* get a possibly pushed back character */
+int getch() {
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+/* push character back onto input */
+void ungetch(int c) {
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++] = c;
 }
