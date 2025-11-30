@@ -8,6 +8,8 @@ Pointers - key code & terms
     - returns the value stored at the address pointer to by a pointer
 - void pointer
     - Used to hold a pointer of any data type but cannot be dereferenced itself
+- size_t
+    - Unsigned integer type returned by sizeof
 */
 
 #include <stdio.h>
@@ -15,6 +17,7 @@ Pointers - key code & terms
 
 #define SIZE 4
 #define BUFSIZE 100
+#define ALLOCSIZE 10000 /* size of available space */
 
 void incrementInt(int* integer);
 void pntrs();
@@ -23,9 +26,13 @@ int getint(int *pn);
 int getch(void);
 void ungetch(int c);
 int strlen(char *s);
+char* alloc(int n);
+void afree(char *p);
 
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
+static char allocbuf[ALLOCSIZE];
+static char *allocp = allocbuf; /* pointer to next free position */
 
 int main() {
 
@@ -74,6 +81,20 @@ int main() {
     intArr[i] == *(intArr + i);
     &intArr[i] == intArr+i;
     pa[i] == *(pa+i);
+
+    /* POINTER OPERATIONS */
+    /* 
+    All the valid pointer operatiosn are as follows:
+    - Assingment of pointers of the same type
+    - Adding or subtracting pointer by an integer
+    - Comparing two pointers that point to members of same array
+    - Assigning or comparing a pointer to 0 (NULL)
+    */
+
+    /* CHARACTER POINTERS */
+    char *pmessage; // declares a character pointer
+    pmessage = "Hello World!"; // assigns the poitner to beginning of the string constant
+    char amessage[] = "Hello World!"; // This is a character array not a pointer
 }
 
 // functions in C are passed by value
@@ -158,4 +179,19 @@ int strlen(char *s) {
     for (len = 0; *s != '/0'; s++)
         len++;
     return len;
+}
+
+/* Returns a pointer to n characters */
+char* alloc(int n) {
+    if (allocbuf + ALLOCSIZE - allocp >= n) {
+        allocp += n; /* set to next free contiguous block*/
+        return allocp - n; /* return pointer to start of free block */
+    } else {
+        return 0; /* not enough free space */
+    }
+}
+/* Free storage pointed to by p */
+void afree(char *p) {
+    if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+        allocp = p;
 }
