@@ -19,15 +19,19 @@ Pointers - key code & terms
 #define BUFSIZE 100
 #define ALLOCSIZE 10000 /* size of available space */
 
+void info();
 void incrementInt(int* integer);
 void pntrs();
 void swap(int *px, int *py);
 int getint(int *pn);
 int getch(void);
 void ungetch(int c);
-int strlen(char *s);
-char* alloc(int n);
+int stringlen(char *s);
+char *alloc(int n);
 void afree(char *p);
+void strcpyA(char *s, char *t);
+int strcmp(char *s, char *t);
+char *_strcat(char *s, const char *t);
 
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
@@ -35,6 +39,11 @@ static char allocbuf[ALLOCSIZE];
 static char *allocp = allocbuf; /* pointer to next free position */
 
 int main() {
+    char *string = "Hello ";
+    _strcat(string, "World!");
+}
+
+void info() {
 
     pntrs();
 
@@ -49,8 +58,8 @@ int main() {
 
     // Void pointers provided a way to return a general address, disregarding the 
     // type of data being stored at that address.
-    void * alloc();
-    int *vals = (int *) alloc(42);
+    // void * alloc();
+    // int *vals = (int *) alloc(42);
 
     printf("---- getint ----\n");
     int n, nums[SIZE];
@@ -173,16 +182,16 @@ void ungetch(int c) {
 }
 
 /* Returns the length of a string */
-int strlen(char *s) {
+int stringlen(char *s) {
     int len;
     
-    for (len = 0; *s != '/0'; s++)
+    for (len = 0; *s != '\0'; s++)
         len++;
     return len;
 }
 
 /* Returns a pointer to n characters */
-char* alloc(int n) {
+char *alloc(int n) {
     if (allocbuf + ALLOCSIZE - allocp >= n) {
         allocp += n; /* set to next free contiguous block*/
         return allocp - n; /* return pointer to start of free block */
@@ -194,4 +203,31 @@ char* alloc(int n) {
 void afree(char *p) {
     if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
         allocp = p;
+}
+
+/* Copies t into s using array implementation */
+void strcpyA(char *s, char *t) {
+    int i = 0;
+    while ((s[i] = t[i]) != '\0')
+        i++;
+}
+
+/* Copies t into s using pointer implementation */
+void strcpyP(char *s, char *t) {
+    while (*s++ = *t++) 
+        ;
+}
+
+/* Compares s and t lexicographically */
+int strcmp(char *s, char *t) {
+    for ( ; *s == *t; s++, t++)
+        if (*s == '\0')
+            return 0;
+    return *s - *t;
+}
+
+/* Concatenates string t to the end of string s */
+char *_strcat(char *s, const char *t) {
+    while (*s++ != '\0')
+        ;
 }
