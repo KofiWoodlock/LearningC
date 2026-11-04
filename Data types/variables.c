@@ -11,6 +11,13 @@ Data types and variables in c
 		- a variable whose memory persists for the entire execution of the program
 		static global variables have a limited scope to the source file it's 
 		declared in (internal linkage)
+	- int (4 bytes)
+	- char (1 byte)
+	- short (2 bytes)
+	- long long (8 bytes) 
+	- float (4 bytes)
+	- double (8 bytes)
+	- bool (1 byte)
 */
 #include <stdio.h>
 #include <stdbool.h>

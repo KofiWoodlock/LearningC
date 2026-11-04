@@ -1,6 +1,6 @@
 /*
 Pointers - key code & terms
-- pointer 
+- pointer
     - A variable that stores the memory address of another variable
 - address operator (&)
     - returns the memory address of a variable
@@ -12,15 +12,15 @@ Pointers - key code & terms
     - Unsigned integer type returned by sizeof
 */
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #define SIZE 4
 #define BUFSIZE 100
 #define ALLOCSIZE 10000 /* size of available space */
 
 void info();
-void incrementInt(int* integer);
+void incrementInt(int *integer);
 void pntrs();
 void swap(int *px, int *py);
 int getint(int *pn);
@@ -34,200 +34,219 @@ int strcmp(char *s, char *t);
 char *_strcat(char *s, const char *t);
 
 char buf[BUFSIZE]; /* buffer for ungetch */
-int bufp = 0; /* next free position in buf */
+int bufp = 0;      /* next free position in buf */
 static char allocbuf[ALLOCSIZE];
 static char *allocp = allocbuf; /* pointer to next free position */
 
 int main() {
-    char *string = "Hello ";
-    _strcat(string, "World!");
+  info();
+  // char *string = "Hello ";
+  // _strcat(string, "World!");
+  return 0;
 }
 
 void info() {
 
-    pntrs();
+  pntrs();
 
-    int age = 25;
-    printf("%p\n", &age); // %p is the format specifier for pointer addresses  
+  int age = 25;
+  printf("%p\n", &age); // %p is the format specifier for pointer addresses
 
-    // create a pointer 
-    int *pAge = &age;
-    // increment age by passing it's reference to a function 
-    incrementInt(pAge);
-    printf("%d\n", age);
+  // create a pointer
+  int *pAge = &age;
+  // increment age by passing it's reference to a function
+  incrementInt(pAge);
+  printf("%d\n", age);
 
-    // Void pointers provided a way to return a general address, disregarding the 
-    // type of data being stored at that address.
-    // void * alloc();
-    // int *vals = (int *) alloc(42);
+  // Void pointers provided a way to return a general address, disregarding the
+  // type of data being stored at that address.
+  // void * alloc();
+  // int *vals = (int *) alloc(42);
 
-    printf("---- getint ----\n");
-    int n, nums[SIZE];
-    for (n = 0; n < SIZE && getint(&nums[n]) != EOF; n++)
-        ;
-    for (int i = 0; i < sizeof(nums) / sizeof(int); i++)
-        printf("nums[%d]: %d\n", i, nums[i]);
+  printf("---- getint ----\n");
+  int n, nums[SIZE];
+  for (n = 0; n < SIZE && getint(&nums[n]) != EOF; n++)
+    ;
+  for (int i = 0; i < sizeof(nums) / sizeof(int); i++)
+    printf("nums[%d]: %d\n", i, nums[i]);
 
-    /* POINTER ARITHMETIC */
-    printf("---- Pointer arithmetic ----\n");
-    /* Any operations that can be performed by array subscripting can be 
-        achieved by using pointers
-    */
-    int intArr[10]; // declares an integer array of size 10
-    int *pa; // declares an integer pointer 
-    pa = &intArr[0]; // Sets pa to point to the 0th element in the integer array
-    int x = *pa; // Sets x to be the VALUE of pa that is the value of intArr[0] 
-    pa + 1; // Increments pa to be the next address in the array namely intArr[1]
-    /* pa + i; will point pa i elements after pa and likewise with pa - i in the other
-    direction 
-    *(pa+i);  returns the Value of the contents of intArr[i]
-    In c the name of an array is an alias for the adrress of the first element
-    so as shorthand we can write 
-        */
-    pa = intArr;
-    int i = 1;
-    // The statements are the same
-    intArr[i] == *(intArr + i);
-    &intArr[i] == intArr+i;
-    pa[i] == *(pa+i);
+  /* POINTER ARITHMETIC */
+  printf("---- Pointer arithmetic ----\n");
+  /* Any operations that can be performed by array subscripting can be
+      achieved by using pointers
+  */
+  int intArr[10];  // declares an integer array of size 10
+  int *pa;         // declares an integer pointer
+  pa = &intArr[0]; // Sets pa to point to the 0th element in the integer array
+  int x = *pa; // Sets x to be the VALUE of pa that is the value of intArr[0]
+  pa + 1; // Increments pa to be the next address in the array namely intArr[1]
+  /* pa + i; will point pa i elements after pa and likewise with pa - i in the
+  other direction
+  *(pa+i);  returns the Value of the contents of intArr[i]
+  In c the name of an array is an alias for the adrress of the first element
+  so as shorthand we can write
+      */
+  pa = intArr;
+  int i = 1;
+  // The statements are the same
+  intArr[i] == *(intArr + i);
+  &intArr[i] == intArr + i;
+  pa[i] == *(pa + i);
 
-    /* POINTER OPERATIONS */
-    /* 
-    All the valid pointer operatiosn are as follows:
-    - Assingment of pointers of the same type
-    - Adding or subtracting pointer by an integer
-    - Comparing two pointers that point to members of same array
-    - Assigning or comparing a pointer to 0 (NULL)
-    */
+  /* POINTER OPERATIONS */
+  /*
+  All the valid pointer operatiosn are as follows:
+  - Assingment of pointers of the same type
+  - Adding or subtracting pointer by an integer
+  - Comparing two pointers that point to members of same array
+  - Assigning or comparing a pointer to 0 (NULL)
+  */
 
-    /* CHARACTER POINTERS */
-    char *pmessage; // declares a character pointer
-    pmessage = "Hello World!"; // assigns the poitner to beginning of the string constant
-    char amessage[] = "Hello World!"; // This is a character array not a pointer
+  /* CHARACTER POINTERS */
+  char *pmessage; // declares a character pointer
+  pmessage =
+      "Hello World!"; // assigns the poitner to beginning of the string constant
+  char amessage[] = "Hello World!"; // This is a character array not a pointer
 }
 
 // functions in C are passed by value
-void incrementInt(int* integer) {
-    // we must include brackets around the dereference operator 
-    // because the increment operator takes precedence over the * operator
-    // the * operator will return the value stored at the memeory address
-    // then the increment operator will increase it's value by 1
-    (*integer)++;
+void incrementInt(int *integer) {
+  // we must include brackets around the dereference operator
+  // because the increment operator takes precedence over the * operator
+  // the * operator will return the value stored at the memeory address
+  // then the increment operator will increase it's value by 1
+  (*integer)++;
 }
 
 void pntrs() {
 
-    // Pointer arithmetic 
-    char ca[10], *cp;
-    int ia[10], *ip;
+  // Pointer arithmetic
+  char ca[10], *cp;
+  int ia[10], *ip;
 
-    cp = ca + 1;
-    ip = ia + 1;
+  cp = ca + 1;
+  ip = ia + 1;
 
-    printf("ca %p cp %p\n", ca, cp);
-    printf("ia %p ip %p\n", ia, ip);
+  printf("ca %p cp %p\n", ca, cp);
+  printf("ia %p ip %p\n", ia, ip);
 
-    /* When incrementing and decrementing pointers 
-    the address increases by the size of it's type 
-    for example if an integer pointer had the address 
-    0004 incrementing by one would increse the address by 4 bytes
-    0008
-    */
+  /* When incrementing and decrementing pointers
+  the address increases by the size of it's type
+  for example if an integer pointer had the address
+  0004 incrementing by one would increse the address by 4 bytes
+  0008
+  */
 }
 
 void swap(int *px, int *py) {
-    int tmp;
+  int tmp;
 
-    tmp = *px;
-    *px = *py;
-    *py = tmp;
+  tmp = *px;
+  *px = *py;
+  *py = tmp;
 }
 
 /* returns the next integer from input stream into *pn */
 int getint(int *pn) {
-    int c, sign;
+  int c, sign;
 
-    while (isspace(c = getch()))
-        ;
-    if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
-        ungetch(c); /* Not a number */
-        return 0;
+  while (isspace(c = getch()))
+    ;
+  if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+    ungetch(c); /* Not a number */
+    return 0;
+  }
+  sign = (c == '-') ? -1 : 1;
+  if (c == '+' || c == '-') {
+    c = getch();
+    if (!isdigit(c)) {
+      ungetch(c);
     }
-    sign = (c == '-') ? -1 : 1;
-    if (c == '+' || c == '-') {
-        c = getch();
-        if (!isdigit(c)) {
-            ungetch(c);
-        }
-    }
-    for (*pn = 0; isdigit(c); c = getch())
-        *pn = 10 * *pn +  (c - '0');
-    *pn *= sign;
-    if (c != EOF)
-        ungetch(c);
-    return c;
+  }
+  for (*pn = 0; isdigit(c); c = getch())
+    *pn = 10 * *pn + (c - '0');
+  *pn *= sign;
+  if (c != EOF)
+    ungetch(c);
+  return c;
+}
+
+/* returns the next rational number from the input stream into *pn */
+double getfloat(double *pn) {
+  double c, sign;
+
+  while (isspace(c = getch()))
+    ;
+  if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+    ungetch(c); /* Not a number */
+    return 0.0;
+  }
+  sign = (c == '-') ? -1.0 : 1.0;
+  if (c == '+' || c == '-') {
+    c = getch();
+    if (!isdigit(c))
+      ungetch(c);
+  }
 }
 
 /* get a possibly pushed back character */
-int getch() {
-    return (bufp > 0) ? buf[--bufp] : getchar();
-}
+int getch() { return (bufp > 0) ? buf[--bufp] : getchar(); }
 
 /* push character back onto input */
 void ungetch(int c) {
-    if (bufp >= BUFSIZE)
-        printf("ungetch: too many characters\n");
-    else
-        buf[bufp++] = c;
+  if (bufp >= BUFSIZE)
+    printf("ungetch: too many characters\n");
+  else
+    buf[bufp++] = c;
 }
 
 /* Returns the length of a string */
 int stringlen(char *s) {
-    int len;
-    
-    for (len = 0; *s != '\0'; s++)
-        len++;
-    return len;
+  int len;
+
+  for (len = 0; *s != '\0'; s++)
+    len++;
+  return len;
 }
 
 /* Returns a pointer to n characters */
 char *alloc(int n) {
-    if (allocbuf + ALLOCSIZE - allocp >= n) {
-        allocp += n; /* set to next free contiguous block*/
-        return allocp - n; /* return pointer to start of free block */
-    } else {
-        return 0; /* not enough free space */
-    }
+  if (allocbuf + ALLOCSIZE - allocp >= n) {
+    allocp += n;       /* set to next free contiguous block*/
+    return allocp - n; /* return pointer to start of free block */
+  } else {
+    return 0; /* not enough free space */
+  }
 }
 /* Free storage pointed to by p */
 void afree(char *p) {
-    if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
-        allocp = p;
+  if (p >= allocbuf && p < allocbuf + ALLOCSIZE)
+    allocp = p;
 }
 
 /* Copies t into s using array implementation */
 void strcpyA(char *s, char *t) {
-    int i = 0;
-    while ((s[i] = t[i]) != '\0')
-        i++;
+  int i = 0;
+  while ((s[i] = t[i]) != '\0')
+    i++;
 }
 
 /* Copies t into s using pointer implementation */
 void strcpyP(char *s, char *t) {
-    while (*s++ = *t++) 
-        ;
+  while (*s++ = *t++)
+    ;
 }
 
 /* Compares s and t lexicographically */
 int strcmp(char *s, char *t) {
-    for ( ; *s == *t; s++, t++)
-        if (*s == '\0')
-            return 0;
-    return *s - *t;
+  for (; *s == *t; s++, t++)
+    if (*s == '\0')
+      return 0;
+  return *s - *t;
 }
 
 /* Concatenates string t to the end of string s */
 char *_strcat(char *s, const char *t) {
-    while (*s++ != '\0')
-        ;
+  while (*s++ != '\0')
+    ;
 }
