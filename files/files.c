@@ -4,6 +4,8 @@ Files - key terms & code
     - A struct defined in stdio.h to hold information about files 
 - buffer
     - Temporarily stores data read from an input stream
+- file pointer
+    - a pointer that points to a file type denoted FILE *file_pointer;
 */
 
 #include <stdio.h>
